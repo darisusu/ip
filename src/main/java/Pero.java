@@ -1,11 +1,20 @@
+import java.util.Scanner;
+
 public class Pero {
     public static void main(String[] args) {
-
-        String introMsg = "Hello, I'm Pero! What can I do for you?";
-        String exitMsg = "Bye. Hope to see you again soon!";
-
+        Scanner sc = new Scanner(System.in);  // Create a Scanner object
+        String introMsg = "Hello, I'm Pero! What you want?";
         System.out.println(introMsg);
-        System.out.println(exitMsg);
 
+        //Loop
+        String input = "";
+        while (!input.equalsIgnoreCase("bye")) {
+            System.out.print("What? ");
+            input = sc.nextLine();
+            System.out.println(input);
+        }
+
+        String exitMsg = "Ok Bye.";
+        System.out.println(exitMsg);
     }
 }
