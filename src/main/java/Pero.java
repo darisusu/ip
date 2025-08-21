@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-
-
 public class Pero {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
@@ -42,11 +40,7 @@ public class Pero {
                 taskCount++;
             }
         }
-
         String exitMsg = "Ok GoodLuck.";
         System.out.println(exitMsg);
     }
-
-
-
 }
