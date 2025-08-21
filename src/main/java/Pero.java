@@ -11,10 +11,13 @@ public class Pero {
 
         //Loop
         String input = "";
-        while (!input.equalsIgnoreCase("bye")) {
-
-            System.out.print("What's the task? ");
+        while (true) {
+            System.out.print("What's the task? \n");
             input = sc.nextLine();
+
+            if (input.equalsIgnoreCase("bye")) {
+                break;  // exit the loop immediately
+            }
 
             //list out all tasks
             if (input.equalsIgnoreCase("list")) {
@@ -67,20 +70,17 @@ public class Pero {
                 taskCount++;
                 System.out.println("Now you have " + taskCount + " tasks in the list.");
 
-
-
-
-
-
-
             } else {
-                System.out.println("Added task: " + input);
-                Task t = new Task(input);
-                tasks[taskCount] = t;
-                taskCount++;
+//                System.out.println("Added task: " + input);
+//                Task t = new Task(input);
+//                tasks[taskCount] = t;
+//                taskCount++;
+//                System.out.println("Added task: " + input);
+                System.out.println("Try again!");
             }
+            System.out.println("");
         }
-        String exitMsg = "Ok GoodLuck.";
+        String exitMsg = "Ok thankyou for using Pero, good luck.";
         System.out.println(exitMsg);
     }
 }
