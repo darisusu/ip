@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 // can improve polymorphism of each subclass inheriting task
 // can include error handling for mark/unmark
@@ -10,8 +11,8 @@ public class Pero {
         String introMsg = "Hello, I'm Pero! I am here to track ur tasks.";
         System.out.println(introMsg);
 
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
+        //int taskCount = 0;
 
         //Loop
         String input = "";
@@ -26,20 +27,28 @@ public class Pero {
             try {
                 if (input.equalsIgnoreCase("list")) {
                     System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println((i + 1) + ". " + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + ". " + tasks.get(i));
                     }
                 } else if (input.matches("mark (\\d+)")) {
                     // get index by converting string to int
                     // split input and get second part, -1 to match 0-indexing
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    tasks[index].markAsDone();
-                    System.out.println("Ok marked done:\n" + tasks[index]);
+                    tasks.get(index).markAsDone();
+                    System.out.println("Ok marked done:\n" + tasks.get(index));
 
                 } else if (input.matches("unmark (\\d+)")) {
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    tasks[index].markAsUndone();
-                    System.out.println("Ok marked undone:\n" + tasks[index]);
+                    tasks.get(index).markAsUndone();
+                    System.out.println("Ok marked undone:\n" + tasks.get(index));
+
+                } else if (input.matches("delete (\\d+)")) {
+                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
+                    System.out.println("Noted, I will remove this task:");
+                    System.out.println(tasks.get(index));
+                    tasks.remove(index);
+                    System.out.println("Now, you have " + tasks.size() + " tasks in the list.");
+
 
                 } else if (input.startsWith("todo")) {
 
@@ -51,11 +60,10 @@ public class Pero {
                         throw new PeroException("Oops! ToDo requires 'todo [task]' format, try again!");
                     }
                     Task t = new ToDo(taskToDo);
-                    tasks[taskCount] = t;
+                    tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
-                    taskCount++;
-                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else if (input.startsWith("deadline")) {
                     if (input.equals("deadline") || !input.contains("/by")) {
@@ -68,11 +76,10 @@ public class Pero {
                     String task = taskDeadline[0];
                     String by = taskDeadline[1];
                     Task t = new Deadline(task, by);
-                    tasks[taskCount] = t;
+                    tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
-                    taskCount++;
-                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else if (input.startsWith("event")) {
                     if (input.equals("event") || !input.contains("/from") || !input.contains("/to")) {
@@ -90,11 +97,10 @@ public class Pero {
                     String from = time[0];
                     String to = time[1];
                     Task t = new Event(task, from, to);
-                    tasks[taskCount] = t;
+                    tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
-                    taskCount++;
-                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else {
 //                    System.out.println("Added task: " + input);

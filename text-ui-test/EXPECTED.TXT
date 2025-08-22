@@ -54,11 +54,18 @@ Ok marked undone:
 [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 
 What's the task?
+Oops! Idk whats that, pls try again.
+
+What's the task?
+Noted, I will remove this task:
+[T][ ] read book
+Now, you have 3 tasks in the list.
+
+What's the task?
 Here are the tasks in your list:
 1. [T][X] borrow book
 2. [D][ ] return book (by: June 6th)
 3. [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
-4. [T][ ] read book
 
 What's the task?
 Ok thankyou for using Pero, good luck.
