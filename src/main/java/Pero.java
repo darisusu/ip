@@ -12,7 +12,6 @@ public class Pero {
         System.out.println(introMsg);
 
         ArrayList<Task> tasks = new ArrayList<>();
-        //int taskCount = 0;
 
         //Loop
         String input = "";
@@ -51,52 +50,21 @@ public class Pero {
 
 
                 } else if (input.startsWith("todo")) {
-
-                    if (input.equals("todo")) {
-                        throw new PeroException("Oops! ToDo requires 'todo [task]' format, try again!");
-                    }
-                    String taskToDo = input.substring(5); //starts at index 5, remove "todo "
-                    if (taskToDo.isBlank()) {
-                        throw new PeroException("Oops! ToDo requires 'todo [task]' format, try again!");
-                    }
-                    Task t = new ToDo(taskToDo);
+                    Task t = ToDo.fromInput(input);
                     tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else if (input.startsWith("deadline")) {
-                    if (input.equals("deadline") || !input.contains("/by")) {
-                        throw new PeroException("Oops! Deadline requires 'deadline [task] /by [time/date]' format, try again!");
-                    }
-                    String[] taskDeadline = input.substring(9).split(" /by "); //starts at index 9, remove "deadline "
-                    if (taskDeadline.length < 2) {
-                        throw new PeroException("Oops! Deadline requires 'deadline [task] /by [time/date]' format, try again!");
-                    }
-                    String task = taskDeadline[0];
-                    String by = taskDeadline[1];
-                    Task t = new Deadline(task, by);
+                    Task t = Deadline.fromInput(input);
                     tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else if (input.startsWith("event")) {
-                    if (input.equals("event") || !input.contains("/from") || !input.contains("/to")) {
-                        throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
-                    }
-                    String[] taskEvent = input.substring(6).split(" /from "); //starts at index 6, remove "event "
-                    if (taskEvent.length < 2) {
-                        throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
-                    }
-                    String task = taskEvent[0];
-                    String[] time = taskEvent[1].split(" /to ");
-                    if (time.length < 2) {
-                        throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
-                    }
-                    String from = time[0];
-                    String to = time[1];
-                    Task t = new Event(task, from, to);
+                    Task t = Event.fromInput(input);
                     tasks.add(t);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(t);
