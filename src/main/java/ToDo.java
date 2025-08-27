@@ -16,6 +16,11 @@ public class ToDo extends Task {
     }
 
     @Override
+    public String toStorageString() {
+        return "T | " + (isDone? "1" : "0") + " | " + this.description;
+    }
+
+    @Override
     public String toString() {
         return "[T]" + super.toString();
     }
