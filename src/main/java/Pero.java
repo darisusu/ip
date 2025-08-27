@@ -1,9 +1,10 @@
 import java.util.Scanner;
+import java.util.List;
 import java.util.ArrayList;
 
 // can improve polymorphism of each subclass inheriting task
 // can include error handling for mark/unmark
-
+// exception index out of bounds for mark/unmark
 
 public class Pero {
     public static void main(String[] args) {
@@ -11,7 +12,7 @@ public class Pero {
         String introMsg = "Hello, I'm Pero! I am here to track ur tasks.";
         System.out.println(introMsg);
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
         //Loop
         String input = "";
@@ -48,7 +49,6 @@ public class Pero {
                     tasks.remove(index);
                     System.out.println("Now, you have " + tasks.size() + " tasks in the list.");
 
-
                 } else if (input.startsWith("todo")) {
                     Task t = ToDo.fromInput(input);
                     tasks.add(t);
@@ -71,13 +71,6 @@ public class Pero {
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
                 } else {
-//                    System.out.println("Added task: " + input);
-//                    Task t = new Task(input);
-//                    tasks[taskCount] = t;
-//                    taskCount++;
-//                    System.out.println("Added task: " + input);
-
-//                    System.out.println("Try again!");
                     throw new PeroException("Oops! Idk whats that, pls try again.");
                 }
             } catch (PeroException e) {
