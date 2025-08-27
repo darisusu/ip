@@ -1,8 +1,8 @@
 public class Deadline extends Task {
     protected String by;
-    public Deadline(String description, String by){
-        super(description);
-        this.by =by;
+    public Deadline(String description, boolean isDone, String by){
+        super(description, isDone);
+        this.by = by;
     }
 
     public static Deadline fromInput(String input) throws PeroException{
@@ -15,7 +15,7 @@ public class Deadline extends Task {
         }
         String task = taskDeadline[0];
         String by = taskDeadline[1];
-        return new Deadline(task,by);
+        return new Deadline(task,false, by);
     }
 
     @Override

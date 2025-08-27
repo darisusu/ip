@@ -2,8 +2,8 @@ public class Event extends Task {
     protected String from;
     protected String to;
 
-    public Event(String description, String from, String to){
-        super(description);
+    public Event(String description, boolean isDone, String from, String to){
+        super(description, isDone);
         this.to = to;
         this.from = from;
     }
@@ -23,7 +23,7 @@ public class Event extends Task {
         }
         String from = time[0];
         String to = time[1];
-        return new Event(task,from,to);
+        return new Event(task,false,from,to);
     }
 
     @Override
