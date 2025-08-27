@@ -1,6 +1,6 @@
 public class ToDo extends Task {
-    public ToDo(String description) {
-        super(description);
+    public ToDo(String description, boolean isDone) {
+        super(description, isDone);
     }
 
     public static ToDo fromInput(String input) throws PeroException {
@@ -12,7 +12,12 @@ public class ToDo extends Task {
         if (taskToDo.isBlank()) {
             throw new PeroException("Oops! ToDo requires 'todo [task]' format, try again!");
         }
-        return new ToDo(taskToDo);
+        return new ToDo(taskToDo, false);
+    }
+
+    @Override
+    public String toStorageString() {
+        return "T | " + (isDone? "1" : "0") + " | " + this.description;
     }
 
     @Override
