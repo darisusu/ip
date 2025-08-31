@@ -22,6 +22,7 @@ public abstract class Task {
         this.isDone = isDone;
     }
 
+    //may not need to use
     public String getDescription() {
         return this.description;
     }

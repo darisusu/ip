@@ -3,34 +3,34 @@ package pero;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
 
 // can improve polymorphism of each subclass inheriting task
 // can include error handling for mark/unmark
 // exception index out of bounds for mark/unmark
 
 public class Pero {
+
+    private Storage storage;
+    private TaskList taskList;
+    private Ui ui;
+
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
-        String introMsg = "Hello, I'm Pero! I am here to track ur tasks.";
-        System.out.println(introMsg);
+        Ui.showWelcome();
 
         Storage storage = new Storage("Pero_storage.txt");
         List<Task> tasks = storage.loadList();
 
-        if (!tasks.isEmpty()) {
-            System.out.println("Here are the stored tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
-            }
-        }
+        Ui.showTaskList(tasks);
 
-
-        String input = "";
+        String input = ""; //initialise input
         while (true) {
-            //print guidelines?
 
-            System.out.print("What's the task?\n");
+            Ui.showGuideLines();
+            Ui.showPrompt();
+
             input = sc.nextLine();
 
             if (input.equalsIgnoreCase("bye")) {
@@ -39,71 +39,63 @@ public class Pero {
 
             try {
                 if (input.equalsIgnoreCase("list")) {
-                    if (tasks.isEmpty()) {
-                        System.out.println("No tasks in your list yet. Start adding!");
-                        continue;
-                    }
-                    System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + ". " + tasks.get(i));
-                    }
+                    Ui.showTaskList(tasks);
+
                 } else if (input.matches("mark (\\d+)")) {
                     // get index by converting string to int
                     // split input and get second part, -1 to match 0-indexing
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    tasks.get(index).markAsDone();
-                    System.out.println("Ok marked done:\n" + tasks.get(index));
+                    Task currTask = tasks.get(index);
+                    currTask.markAsDone();
+                    Ui.showMarkedTask(currTask);
 
                 } else if (input.matches("unmark (\\d+)")) {
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    tasks.get(index).markAsUndone();
-                    System.out.println("Ok marked undone:\n" + tasks.get(index));
+                    Task currTask = tasks.get(index);
+                    currTask.markAsUndone();
+                    Ui.showUnmarkedTask(currTask);
 
                 } else if (input.matches("delete (\\d+)")) {
                     int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    System.out.println("Noted, I will remove this task:");
-                    System.out.println(tasks.get(index));
+                    Ui.showDelete(tasks,index);
                     tasks.remove(index);
-                    System.out.println("Now, you have " + tasks.size() + " tasks in the list.");
+                    Ui.showTasksSize(tasks);
 
                 } else if (input.startsWith("todo")) {
-                    Task t = ToDo.fromInput(input);
-                    tasks.add(t);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(t);
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    Task currTask = ToDo.fromInput(input);
+                    tasks.add(currTask);
+                    Ui.showAddedTask(currTask);
+                    Ui.showTasksSize(tasks);
 
                 } else if (input.startsWith("deadline")) {
-                    Task t = Deadline.fromInput(input);
-                    tasks.add(t);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(t);
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    Task currTask = Deadline.fromInput(input);
+                    tasks.add(currTask);
+                    Ui.showAddedTask(currTask);
+                    Ui.showTasksSize(tasks);
 
                 } else if (input.startsWith("event")) {
-                    Task t = Event.fromInput(input);
-                    tasks.add(t);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(t);
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    Task currTask = Event.fromInput(input);
+                    tasks.add(currTask);
+                    Ui.showAddedTask(currTask);
+                    Ui.showTasksSize(tasks);
 
                 } else {
                     throw new PeroException("Oops! Idk whats that, pls try again.");
                 }
             } catch (PeroException e) { //catches all the exception from each fromInput parsing user inputs too
-                System.out.println(e.getMessage());
+                Ui.showError(e.getMessage());
             }
-            System.out.println("");
+
+            Ui.showEmptyLine();
         }
 
         try {
-            System.out.printf("Saving %d tasks into %s%n", tasks.size(), storage.getFilePath());
+            Ui.showSavingToStorage(tasks, storage.getFilePath());
             storage.saveList(tasks);
         } catch (IOException e) {
-            System.out.println("Failed to save tasks: " + e.getMessage());
+            Ui.showError(e.getMessage());
         }
 
-        String exitMsg = "Thankyou for using Pero, and ATB!! Exiting now...";
-        System.out.println(exitMsg);
+        Ui.showExit();
     }
 }
