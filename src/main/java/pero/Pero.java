@@ -1,5 +1,6 @@
 package pero;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,9 +15,17 @@ public class Pero {
         String introMsg = "Hello, I'm Pero! I am here to track ur tasks.";
         System.out.println(introMsg);
 
-        List<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage("Pero_storage.txt");
+        List<Task> tasks = storage.loadList();
 
-        //Loop
+        if (!tasks.isEmpty()) {
+            System.out.println("Here are the stored tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.get(i));
+            }
+        }
+
+
         String input = "";
         while (true) {
             //print guidelines?
@@ -30,6 +39,10 @@ public class Pero {
 
             try {
                 if (input.equalsIgnoreCase("list")) {
+                    if (tasks.isEmpty()) {
+                        System.out.println("No tasks in your list yet. Start adding!");
+                        continue;
+                    }
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println((i + 1) + ". " + tasks.get(i));
@@ -82,6 +95,13 @@ public class Pero {
             }
             System.out.println("");
         }
+
+        try {
+            storage.saveList(tasks);
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks: " + e.getMessage());
+        }
+
         String exitMsg = "Ok thankyou for using Pero, good luck.";
         System.out.println(exitMsg);
     }
