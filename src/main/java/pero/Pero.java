@@ -19,6 +19,8 @@ public class Pero {
         //Loop
         String input = "";
         while (true) {
+            //print guidelines?
+
             System.out.print("What's the task?\n");
             input = sc.nextLine();
 
@@ -75,7 +77,7 @@ public class Pero {
                 } else {
                     throw new PeroException("Oops! Idk whats that, pls try again.");
                 }
-            } catch (PeroException e) {
+            } catch (PeroException e) { //catches all the exception from each fromInput parsing user inputs too
                 System.out.println(e.getMessage());
             }
             System.out.println("");

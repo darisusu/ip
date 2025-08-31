@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
+/**
+ * Handles saving to storage, and retrieval/loading from storage
+ */
 public class Storage {
     private final String filePath;
 
@@ -60,7 +64,9 @@ public class Storage {
                 switch (firstChar) {
                     case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
-                            throw new IllegalArgumentException("Invalid pero.ToDo line in storage file: " + currTaskLine);
+                            // throw new IllegalArgumentException("Invalid pero.ToDo line in storage file: " + currTaskLine);
+                            System.out.println("Skipped wrong format ToDo line: " + currTaskLine);
+                            continue;
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
@@ -69,26 +75,42 @@ public class Storage {
                     }
                     case "D": { //Deadline
                         if (parts.length != 4) { //wrong format
-                            throw new IllegalArgumentException("Invalid Deadline line in storage file: " + currTaskLine);
+                            //throw new IllegalArgumentException("Invalid Deadline line in storage file: " + currTaskLine);
+                            System.out.println("Skipped invalid Deadline line: " + currTaskLine);
+                            continue;
                         }
                         boolean isDone = isMarked(parts[1]);
-                        Task t = new Deadline(parts[2], isDone, parts[3]);
-                        tasks.add(t);
+                        try {
+                            LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
+                            Task t = new Deadline(parts[2], isDone, byTimeObj);
+                            tasks.add(t);
+                        } catch (PeroException e) {
+                            System.out.println("Skipped invalid Deadline (date&time format) in storage: "
+                                    + currTaskLine );
+                        }
                         break;
                     }
                     case "E": { //Event
                         if (parts.length != 5) { //wrong format
-                            throw new IllegalArgumentException("Invalid Event line in storage file: " + currTaskLine);
+                            //throw new IllegalArgumentException("Invalid Event line in storage file: " + currTaskLine);
+                            System.out.println("Skipped invalid Event line: " + currTaskLine);
+                            continue;
                         }
                         boolean isDone = isMarked(parts[1]);
-                        Task t = new Event(parts[2], isDone, parts[3], parts[4]);
-                        tasks.add(t);
+                        try {
+                            LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
+                            LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
+                            Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
+                            tasks.add(t);
+                        } catch (PeroException e) {
+                            System.out.println("Skipped invalid Event (date&time format) in storage: "
+                                    + currTaskLine );
+                        }
                         break;
                     }
-                    default:
+                    default: // not any of the tasks
                         throw new IllegalArgumentException(
                                 "Unknown pero.Task type found: " + firstChar + " in " + currTaskLine);
-
                 }
             }
 
