@@ -97,12 +97,13 @@ public class Pero {
         }
 
         try {
+            System.out.printf("Saving %d tasks into %s%n", tasks.size(), storage.getFilePath());
             storage.saveList(tasks);
         } catch (IOException e) {
             System.out.println("Failed to save tasks: " + e.getMessage());
         }
 
-        String exitMsg = "Ok thankyou for using Pero, good luck.";
+        String exitMsg = "Thankyou for using Pero, and ATB!! Exiting now...";
         System.out.println(exitMsg);
     }
 }

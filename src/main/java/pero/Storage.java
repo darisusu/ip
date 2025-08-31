@@ -20,6 +20,10 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    public String getFilePath() {
+        return this.filePath;
+    }
+
     //write to Pero_storage
     public void saveList(List<Task> tasks) throws IOException { //where does it catch?
         FileWriter fw = new FileWriter(filePath);
@@ -48,8 +52,6 @@ public class Storage {
             Scanner s = new Scanner(f); //may throw FileNotFoundException
 
             while (s.hasNext()) {
-                //Get tasks + sort diff cases
-                //what if line empty/doesn't start with correct char
                 String currTaskLine = s.nextLine();
                 if (currTaskLine.isEmpty()) {
                     continue;
