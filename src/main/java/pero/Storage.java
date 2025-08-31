@@ -1,10 +1,11 @@
+package pero;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -51,15 +52,15 @@ public class Storage {
                 }
 
                 //parse through each line and convert to task to add to tasks
-                //char firstChar = currTaskLine.charAt(0); //see what type of Task
+                //char firstChar = currTaskLine.charAt(0); //see what type of pero.Task
 
                 String[] parts = currTaskLine.split(" \\| "); //split the line into parts
                 String firstChar = parts[0];
 
                 switch (firstChar) {
-                    case "T": { //ToDo
+                    case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
-                            throw new IllegalArgumentException("Invalid ToDo line in storage file: " + currTaskLine);
+                            throw new IllegalArgumentException("Invalid pero.ToDo line in storage file: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
@@ -86,7 +87,7 @@ public class Storage {
                     }
                     default:
                         throw new IllegalArgumentException(
-                                "Unknown Task type found: " + firstChar + " in " + currTaskLine);
+                                "Unknown pero.Task type found: " + firstChar + " in " + currTaskLine);
 
                 }
             }
