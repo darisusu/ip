@@ -1,42 +1,94 @@
 package pero;
 
-public class Event extends Task {
-    protected String from;
-    protected String to;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Event(String description, boolean isDone, String from, String to){
+/**
+ * Represents event task with starting to end date and timing.
+ * An event has a description, completion status, and start and end date and time.
+ */
+public class Event extends Task {
+
+    /** Date and time task starts and ends */
+    protected LocalDateTime fromTimeObj;
+    protected LocalDateTime toTimeObj;
+
+    private static final String COMMAND_KEYWORD = "event";
+    private static final String FROM_SEPARATOR = " /from ";
+    private static final String TO_SEPARATOR = " /to ";
+    private static final String WRONG_FORMAT_EXCEPTION =
+            "Oops! Event requires 'event [task] /from [YYYY-DD-MM HHmm] /to [YYYY-DD-MM HHmm]' format, try again!";
+
+    private static final String DATE_TIME_PATTERN = "yyyy-dd-MM HHmm";
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+    private static final DateTimeFormatter STORAGE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+    private static final DateTimeFormatter FINAL_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+
+
+    public Event(String description, boolean isDone, LocalDateTime fromTimeObj, LocalDateTime toTimeObj){
         super(description, isDone);
-        this.to = to;
-        this.from = from;
+        this.fromTimeObj = fromTimeObj;
+        this.toTimeObj = toTimeObj;
     }
 
+    /**
+     * Returns new Event object.
+     *
+     * @param input Input from user.
+     * @return Event event.
+     * @throws PeroException if wrong format
+     */
     public static Event fromInput(String input) throws PeroException {
-        if (input.equals("event") || !input.contains("/from") || !input.contains("/to")) {
-            throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
+        if (input.equals(COMMAND_KEYWORD) || !input.contains(FROM_SEPARATOR) || !input.contains(TO_SEPARATOR)) {
+            throw new PeroException(WRONG_FORMAT_EXCEPTION);
         }
-        String[] taskEvent = input.substring(6).split(" /from "); //starts at index 6, remove "event "
+
+        //starts at index 6, remove "event "
+        String[] taskEvent = input.substring(COMMAND_KEYWORD.length() + 1).split(FROM_SEPARATOR);
         if (taskEvent.length < 2) {
-            throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
+            throw new PeroException(WRONG_FORMAT_EXCEPTION);
         }
         String task = taskEvent[0];
         String[] time = taskEvent[1].split(" /to ");
         if (time.length < 2) {
-            throw new PeroException("Oops! Event requires 'event [task] /from [time/date] /to [time/date]' format, try again!");
+            throw new PeroException(WRONG_FORMAT_EXCEPTION);
         }
-        String from = time[0];
-        String to = time[1];
-        return new Event(task,false,from,to);
+
+        String from = time[0].trim();
+        LocalDateTime fromTimeObj;
+        try {
+            // Convert String "from" to LocalDateTime "fromTimeObj" object
+            fromTimeObj = LocalDateTime.parse(from, INPUT_FORMATTER);
+        } catch (DateTimeException e) {
+            throw new PeroException("Invalid datetime: '" + from + "'. Please follow format: YYYY-DD-MM HHmm");
+        }
+
+        String to = time[1].trim();
+        LocalDateTime toTimeObj;
+        try {
+            // Convert String "to" to LocalDateTime "toTimeObj" object
+            toTimeObj = LocalDateTime.parse(to, INPUT_FORMATTER);
+        } catch (DateTimeException e) {
+            throw new PeroException("Invalid datetime: '" + to + "'. Please follow format: YYYY-DD-MM HHmm");
+        }
+
+        return new Event(task,false,fromTimeObj,toTimeObj);
     }
 
     @Override
     public String toStorageString() {
-        return "E | " + (isDone? "1" : "0") + " | " + this.description + " | " + this.from + " | " + this.to;
+        return "E | " + (isDone? "1" : "0") +
+                " | " + this.description + " | "
+                + this.fromTimeObj.format(STORAGE_FORMATTER) + " | "
+                + this.toTimeObj.format(STORAGE_FORMATTER);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString()
-                + " (from: " + from + " to: " + to + ")";
+        return "[E]" + super.toString() +
+                " (from: " + this.fromTimeObj.format(FINAL_DISPLAY_FORMATTER) +
+                " to: " + this.toTimeObj.format(FINAL_DISPLAY_FORMATTER) + ")";
     }
 
 
