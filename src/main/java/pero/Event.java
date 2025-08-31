@@ -6,12 +6,13 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Represents event task with starting to end date and timing.
- * An event has a description, completion status, and start and end date and time.
+ * An event has a description, completion status, and start and end date+time.
  */
 public class Event extends Task {
 
-    /** Date and time task starts and ends */
+    /** Date+time that task starts */
     protected LocalDateTime fromTimeObj;
+    /** Date+time that task ends */
     protected LocalDateTime toTimeObj;
 
     private static final String COMMAND_KEYWORD = "event";
@@ -21,7 +22,6 @@ public class Event extends Task {
             "Oops! Event requires 'event [task] /from [YYYY-DD-MM HHmm] /to [YYYY-DD-MM HHmm]' format, try again!";
 
     private static final String DATE_TIME_PATTERN = "yyyy-dd-MM HHmm";
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     private static final DateTimeFormatter STORAGE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     private static final DateTimeFormatter FINAL_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
@@ -36,7 +36,7 @@ public class Event extends Task {
      * Returns new Event object.
      *
      * @param input Input from user.
-     * @return Event event.
+     * @return Event.
      * @throws PeroException if wrong format
      */
     public static Event fromInput(String input) throws PeroException {

@@ -1,5 +1,6 @@
 package pero;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,11 +15,21 @@ public class Pero {
         String introMsg = "Hello, I'm Pero! I am here to track ur tasks.";
         System.out.println(introMsg);
 
-        List<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage("Pero_storage.txt");
+        List<Task> tasks = storage.loadList();
 
-        //Loop
+        if (!tasks.isEmpty()) {
+            System.out.println("Here are the stored tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.get(i));
+            }
+        }
+
+
         String input = "";
         while (true) {
+            //print guidelines?
+
             System.out.print("What's the task?\n");
             input = sc.nextLine();
 
@@ -28,6 +39,10 @@ public class Pero {
 
             try {
                 if (input.equalsIgnoreCase("list")) {
+                    if (tasks.isEmpty()) {
+                        System.out.println("No tasks in your list yet. Start adding!");
+                        continue;
+                    }
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println((i + 1) + ". " + tasks.get(i));
@@ -75,12 +90,20 @@ public class Pero {
                 } else {
                     throw new PeroException("Oops! Idk whats that, pls try again.");
                 }
-            } catch (PeroException e) {
+            } catch (PeroException e) { //catches all the exception from each fromInput parsing user inputs too
                 System.out.println(e.getMessage());
             }
             System.out.println("");
         }
-        String exitMsg = "Ok thankyou for using Pero, good luck.";
+
+        try {
+            System.out.printf("Saving %d tasks into %s%n", tasks.size(), storage.getFilePath());
+            storage.saveList(tasks);
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks: " + e.getMessage());
+        }
+
+        String exitMsg = "Thankyou for using Pero, and ATB!! Exiting now...";
         System.out.println(exitMsg);
     }
 }

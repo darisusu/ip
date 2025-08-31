@@ -18,8 +18,7 @@ public class Deadline extends Task {
     private static final String WRONG_FORMAT_EXCEPTION =
             "Oops! Deadline requires 'deadline [task] 'deadline [task] /by [YYYY-DD-MM HHmm]' format, try again!";
 
-    private static final String DATE_TIME_PATTERN = "yyyy-dd-MM HHmm";
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+    private static final String DATE_TIME_PATTERN = "yyyy-dd-MM HHmm"; //pattern used for INPUT and STORAGE formatter
     private static final DateTimeFormatter STORAGE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     private static final DateTimeFormatter FINAL_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
@@ -61,7 +60,7 @@ public class Deadline extends Task {
     public String toStorageString() {
         return "D | " + (isDone? "1" : "0") +
                 " | " + this.description + " | " +
-                this.byTimeObj.format(STORAGE_FORMATTER);
+                this.byTimeObj.format(STORAGE_FORMATTER); // stores string with same pattern YYYY-DD-MM HHmm
     }
 
     @Override
