@@ -56,22 +56,10 @@ public class Event extends Task {
         }
 
         String from = time[0].trim();
-        LocalDateTime fromTimeObj;
-        try {
-            // Convert String "from" to LocalDateTime "fromTimeObj" object
-            fromTimeObj = LocalDateTime.parse(from, INPUT_FORMATTER);
-        } catch (DateTimeException e) {
-            throw new PeroException("Invalid datetime: '" + from + "'. Please follow format: YYYY-DD-MM HHmm");
-        }
+        LocalDateTime fromTimeObj = parseDateTime(from);
 
         String to = time[1].trim();
-        LocalDateTime toTimeObj;
-        try {
-            // Convert String "to" to LocalDateTime "toTimeObj" object
-            toTimeObj = LocalDateTime.parse(to, INPUT_FORMATTER);
-        } catch (DateTimeException e) {
-            throw new PeroException("Invalid datetime: '" + to + "'. Please follow format: YYYY-DD-MM HHmm");
-        }
+        LocalDateTime toTimeObj = parseDateTime(to);
 
         return new Event(task,false,fromTimeObj,toTimeObj);
     }
