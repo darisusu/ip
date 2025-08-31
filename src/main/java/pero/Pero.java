@@ -83,7 +83,7 @@ public class Pero {
                     throw new PeroException("Oops! Idk whats that, pls try again.");
                 }
             } catch (PeroException e) { //catches all the exception from each fromInput parsing user inputs too
-                Ui.showError(e.getMessage());
+                Ui.showExceptions(e.getMessage());
             }
 
             Ui.showEmptyLine();
@@ -93,7 +93,7 @@ public class Pero {
             Ui.showSavingToStorage(tasks, storage.getFilePath());
             storage.saveList(tasks);
         } catch (IOException e) {
-            Ui.showError(e.getMessage());
+            Ui.showExceptions(e.getMessage());
         }
 
         Ui.showExit();

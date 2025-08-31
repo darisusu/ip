@@ -58,17 +58,16 @@ public class Storage {
                 }
 
                 //parse through each line and convert to task to add to tasks
-                //char firstChar = currTaskLine.charAt(0); //see what type of pero.Task
+                //char firstLetter = currTaskLine.charAt(0); //see what type of pero.Task
 
                 String[] parts = currTaskLine.split(" \\| "); //split the line into parts
-                String firstChar = parts[0];
+                String firstLetter = parts[0];
 
-                switch (firstChar) {
+                switch (firstLetter) {
                     case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
-                            // throw new IllegalArgumentException("Invalid pero.ToDo line in storage file: " + currTaskLine);
-                            System.out.println("Skipped wrong format ToDo line: " + currTaskLine);
-                            continue;
+                            Ui.showWrongFormat(firstLetter,currTaskLine);
+                            continue; //skip to next line
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
@@ -77,8 +76,7 @@ public class Storage {
                     }
                     case "D": { //Deadline
                         if (parts.length != 4) { //wrong format
-                            //throw new IllegalArgumentException("Invalid Deadline line in storage file: " + currTaskLine);
-                            System.out.println("Skipped invalid Deadline line: " + currTaskLine);
+                            Ui.showWrongFormat(firstLetter,currTaskLine);
                             continue;
                         }
                         boolean isDone = isMarked(parts[1]);
@@ -87,15 +85,13 @@ public class Storage {
                             Task t = new Deadline(parts[2], isDone, byTimeObj);
                             tasks.add(t);
                         } catch (PeroException e) {
-                            System.out.println("Skipped invalid Deadline (date&time format) in storage: "
-                                    + currTaskLine );
+                            Ui.showWrongFormat(firstLetter,currTaskLine);
                         }
                         break;
                     }
                     case "E": { //Event
                         if (parts.length != 5) { //wrong format
-                            //throw new IllegalArgumentException("Invalid Event line in storage file: " + currTaskLine);
-                            System.out.println("Skipped invalid Event line: " + currTaskLine);
+                            Ui.showWrongFormat(firstLetter,currTaskLine);
                             continue;
                         }
                         boolean isDone = isMarked(parts[1]);
@@ -105,21 +101,17 @@ public class Storage {
                             Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
                             tasks.add(t);
                         } catch (PeroException e) {
-                            System.out.println("Skipped invalid Event (date&time format) in storage: "
-                                    + currTaskLine );
+                            Ui.showWrongFormat(firstLetter,currTaskLine);
                         }
                         break;
                     }
                     default: // not any of the tasks
-                        throw new IllegalArgumentException(
-                                "Unknown pero.Task type found: " + firstChar + " in " + currTaskLine);
+                        Ui.showWrongFormat(firstLetter,currTaskLine);
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid task line: " + e);
+        } catch (FileNotFoundException | IllegalArgumentException e) {
+            Ui.showExceptions(e.getMessage());
         }
         return tasks;
     }

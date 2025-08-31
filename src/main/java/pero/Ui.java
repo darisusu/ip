@@ -12,6 +12,15 @@ public class Ui {
     }
 
     /**
+     *
+     * @param message Error message
+     */
+    public static void showExceptions(String message){
+        System.out.println(message);
+    }
+
+
+    /**
      * Prints welcome message.
      */
     public static void showWelcome() {
@@ -107,13 +116,27 @@ public class Ui {
         System.out.println(currTask);
     }
 
-    public static void showError(String message){
-        System.out.println(message);
-    }
-
     public static void showSavingToStorage(List<Task> tasks, String filePath){
         System.out.printf("Saving %d tasks into %s%n", tasks.size(), filePath);
     }
+
+
+    /**
+     * Display message when current task line being read from storage has wrong format.
+     *
+     * @param firstLetter first letter of line which indicates what task type
+     * @param currTaskLine current task line being read
+     */
+    public static void showWrongFormat(String firstLetter, String currTaskLine){
+        String taskType = switch (firstLetter) {
+            case "T" -> "ToDo";
+            case "D" -> "Deadline";
+            case "E" -> "Event";
+            default -> "Unknown Task";
+        };
+        System.out.println("Skipped invalid " + taskType + " line: " + currTaskLine);
+    }
+
 
 
 
