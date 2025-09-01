@@ -2,43 +2,36 @@ package pero;
 
 import java.util.List;
 
+/** Handles user-facing interactions.*/
 public class Ui {
-
-    /** Prints empty line/ buffer
-     *
-     */
+    /** Displays empty line/ buffer for visual spacing. */
     public static void showEmptyLine() {
         System.out.println();
     }
 
     /**
-     *
-     * @param message Error message
+     * Displays an error message to the console.
+     * @param message Error message.
      */
     public static void showExceptions(String message){
         System.out.println(message);
     }
 
-
-    /**
-     * Prints welcome message.
-     */
+    /** Displays welcome message.*/
     public static void showWelcome() {
         System.out.println("Hello, I'm Pero! I am here to track ur tasks.");
     }
 
-    /**
-     * Prints exit message.
-     */
+    /** Displays exit message. */
     public static void showExit() {
         System.out.println("Thankyou for using Pero, and ATB!! Exiting now...");
     }
 
     /**
-     * Prints stored tasks in list if there is.
+     * Displays stored tasks in list if there is.
      * Else prompts users to start.
      *
-     * @param tasks list of tasks.
+     * @param tasks the list of tasks.
      */
     public static void showTaskList(List<Task> tasks) {
         if (!tasks.isEmpty()) {
@@ -77,55 +70,75 @@ public class Ui {
 
     }
 
-    /**
-     * Prints prompt for task.
-     */
+    /** Displays prompt for task.*/
     public static void showPrompt(){
         System.out.print("What do you want to do?\n");
     }
 
     /**
-     * Prints "Ok marked done: [task]".
+     * Displays confirmation that task has been marked done.
      *
-     * @param task current task.
+     * @param task the current task.
      */
     public static void showMarkedTask(Task task) {
         System.out.println("Ok marked done: " + task);
     }
 
     /**
-     * Prints "Ok marked undone: [task]".
+     * Displays confirmation that task has been marked undone.
      *
-     * @param task current task.
+     * @param task the current task.
      */
     public static void showUnmarkedTask(Task task) {
         System.out.println("Ok marked undone: " + task);
     }
 
+    /**
+     * Displays current number of tasks in task list.
+     *
+     * @param tasks the list of tasks.
+     */
     public static void showTasksSize(List<Task> tasks) {
         System.out.println("Now, you have " + tasks.size() + " tasks in your list.");
     }
 
+    /**
+     * Displays confirmation that task is being deleted from the list.
+     *
+     * @param tasks the list of tasks.
+     * @param index the index of task being removed.
+     */
     public static void showDelete(List<Task> tasks, int index) {
         System.out.print("Noted, now removing task: ");
         System.out.println(tasks.get(index).description);
     }
 
+    /**
+     * Displays confirmation that a new task has been added.
+     *
+     * @param currTask the newly added task.
+     */
     public static void showAddedTask(Task currTask){
         System.out.println("Got it. I've added task:");
         System.out.println(currTask);
     }
 
+    /**
+     * Displays confirmation that tasks are being saved to storage.
+     *
+     * @param tasks the list of tasks being saved/
+     * @param filePath the file path where tasks will be stored at.
+     */
     public static void showSavingToStorage(List<Task> tasks, String filePath){
         System.out.printf("Saving %d tasks into %s%n", tasks.size(), filePath);
     }
 
 
     /**
-     * Display message when current task line being read from storage has wrong format.
+     * Display warning that current task line being read from storage has wrong format.
      *
-     * @param firstLetter first letter of line which indicates what task type
-     * @param currTaskLine current task line being read
+     * @param firstLetter the first letter of line which indicates what task type.
+     * @param currTaskLine the full line of text read from storage.
      */
     public static void showWrongFormat(String firstLetter, String currTaskLine){
         String taskType = switch (firstLetter) {
@@ -136,15 +149,4 @@ public class Ui {
         };
         System.out.println("Skipped invalid " + taskType + " line: " + currTaskLine);
     }
-
-
-
-
-
-
-
-
-
-
-
-    }
+}
