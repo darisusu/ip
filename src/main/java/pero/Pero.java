@@ -19,6 +19,8 @@ public class Pero {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
         Ui.showWelcome();
+        Ui.showGuideLines();
+
 
         Storage storage = new Storage("Pero_storage.txt");
         List<Task> tasks = storage.loadList();
@@ -28,7 +30,6 @@ public class Pero {
         String input = ""; //initialise input
         while (true) {
 
-            Ui.showGuideLines();
             Ui.showPrompt();
 
             input = sc.nextLine();
