@@ -24,97 +24,113 @@ public class Storage {
         return this.filePath;
     }
 
-    //write to Pero_storage
-    public void saveList(List<Task> tasks) throws IOException { //where does it catch?
+    //
+
+    /**
+     * Writes tasks from this session to Pero_storage to be stored
+     *
+     * @param tasks Task list of tasks accumulated from this session.
+     * @throws IOException If filePath used to write to is invalid
+     */
+    public void saveList(TaskList tasks) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        for (Task t : tasks) {
+        for (Task t : tasks.getAllTasks()) {
             fw.write(t.toStorageString() + "\n");
         }
         fw.close();
     }
 
-    private static boolean isMarked(String oneZero) {
-        if (oneZero.equals("1")) { //marked
+    /**
+     * Checks whether first char in line is either 1 or 0.
+     * If 1, marked.
+     * If 0, unmarked.
+     *
+     * @param oneZero First char: either 1 or 0.
+     * @return whether task is marked or unmarked.
+     */
+    private boolean isMarked(String oneZero) {
+        if (oneZero.equals("1")) { // marked
             return true;
-        } else if (oneZero.equals("0")) { //unmarked
+        } else if (oneZero.equals("0")) { // unmarked
             return false;
-        } else { //wrong
+        } else { // not 1 or 0
             throw new IllegalArgumentException("Invalid marked value: " + oneZero);
         }
     }
 
-    //load from Pero_storage
-    public List<Task> loadList() {
-        //new list to store
-        List<Task> tasks = new ArrayList<>();
-        try {
-            File f = new File(this.filePath); //what if no filepath
-            Scanner s = new Scanner(f); //may throw FileNotFoundException
+    /**
+     * Loads all the tasks from filePath storage
+     * Parse through each line and convert to task obj to add to task list.
+     *
+     * @return Task list.
+     * @throws IOException If file path cannot be found or read. (outside of control)
+     * @throws PeroException If line from storage is invalid.
+     */
+    public TaskList loadList() throws IOException, PeroException {
 
-            while (s.hasNext()) {
-                String currTaskLine = s.nextLine();
-                if (currTaskLine.isEmpty()) {
-                    continue;
-                }
+        TaskList tasks = new TaskList(); // initialise empty task to add read tasks from storage to
 
-                //parse through each line and convert to task to add to tasks
-                //char firstLetter = currTaskLine.charAt(0); //see what type of pero.Task
+        File file = new File(this.filePath);
+        if (!file.exists()) {
+            // return tasks; // return empty list if no file found
+            throw new IOException("No storage file found in filePath: " + this.filePath);
+        }
 
-                String[] parts = currTaskLine.split(" \\| "); //split the line into parts
-                String firstLetter = parts[0];
+        Scanner scanner = new Scanner(file);
 
+        //start loop of scanning next and next line in storage file
+        while (scanner.hasNext()) {
+            String currTaskLine = scanner.nextLine();
+
+            if (currTaskLine.isEmpty()) {
+                continue; //go to next line if empty line encountered
+            }
+
+            String[] parts = currTaskLine.split(" \\| "); //split the line into parts
+            String firstLetter = parts[0];
+
+            //if error then catch and go to next line (next iteration of loop)
+            try {
                 switch (firstLetter) {
                     case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
-                            Ui.showWrongFormat(firstLetter,currTaskLine);
-                            continue; //skip to next line
+                            throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
+                            //ui.showWrongFormat(firstLetter,currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
-                        tasks.add(t);
+                        tasks.addTask(t);
                         break;
                     }
                     case "D": { //Deadline
                         if (parts.length != 4) { //wrong format
-                            Ui.showWrongFormat(firstLetter,currTaskLine);
-                            continue;
+                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
-                        try {
-                            LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
-                            Task t = new Deadline(parts[2], isDone, byTimeObj);
-                            tasks.add(t);
-                        } catch (PeroException e) {
-                            Ui.showWrongFormat(firstLetter,currTaskLine);
-                        }
+                        LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
+                        Task t = new Deadline(parts[2], isDone, byTimeObj);
+                        tasks.addTask(t);
                         break;
                     }
                     case "E": { //Event
                         if (parts.length != 5) { //wrong format
-                            Ui.showWrongFormat(firstLetter,currTaskLine);
-                            continue;
+                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
-                        try {
-                            LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
-                            LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
-                            Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
-                            tasks.add(t);
-                        } catch (PeroException e) {
-                            Ui.showWrongFormat(firstLetter,currTaskLine);
-                        }
+
+                        LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
+                        LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
+                        Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
+                        tasks.addTask(t);
                         break;
                     }
                     default: // not any of the tasks
-                        Ui.showWrongFormat(firstLetter,currTaskLine);
+                        throw new PeroException("Unknown task type line from storage: " + currTaskLine);
                 }
+            } catch (IllegalArgumentException e) {
+                throw new PeroException("Invalid line from storage: " + currTaskLine);
             }
-
-        } catch (FileNotFoundException | IllegalArgumentException e) {
-            Ui.showExceptions(e.getMessage());
         }
         return tasks;
     }
-
-
 }
