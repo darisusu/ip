@@ -42,9 +42,9 @@ public abstract class Task {
     /**
      * Parses string input of time and date to LocalDatetime datetime object
      *
-     * @param input
+     * @param input String date time format from storage.
      * @return LocalDateTime
-     * @throws PeroException
+     * @throws PeroException If invalid date time format.
      *
      */
 

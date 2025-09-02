@@ -5,7 +5,7 @@ import java.util.List;
 /** Handles user-facing interactions.*/
 public class Ui {
     /** Displays empty line/ buffer for visual spacing. */
-    public static void showEmptyLine() {
+    public void showEmptyLine() {
         System.out.println();
     }
 
@@ -13,17 +13,17 @@ public class Ui {
      * Displays an error message to the console.
      * @param message Error message.
      */
-    public static void showExceptions(String message){
+    public void showExceptions(String message){
         System.out.println(message);
     }
 
     /** Displays welcome message.*/
-    public static void showWelcome() {
+    public void showWelcome() {
         System.out.println("Hello, I'm Pero! I am here to track ur tasks.");
     }
 
     /** Displays exit message. */
-    public static void showExit() {
+    public void showExit() {
         System.out.println("Thankyou for using Pero, and ATB!! Exiting now...");
     }
 
@@ -33,11 +33,11 @@ public class Ui {
      *
      * @param tasks the list of tasks.
      */
-    public static void showTaskList(List<Task> tasks) {
-        if (!tasks.isEmpty()) {
+    public void showTaskList(TaskList tasks) {
+        if (!tasks.getAllTasks().isEmpty()) {
             System.out.println("Here are the stored tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
+            for (int i = 0; i < tasks.getAllTasks().size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.getAllTasks().get(i));
             }
         } else {
             System.out.println("No stored tasks in your list yet. Start adding!");
@@ -48,7 +48,7 @@ public class Ui {
     /**
      * Starts users off with guide: possible inputs and explanations.
      */
-    public static void showGuideLines(){
+    public void showGuideLines(){
         System.out.println("Welcome to Pero! Here’s how to use me:");
         System.out.println();
         System.out.println("Adding tasks:");
@@ -71,7 +71,7 @@ public class Ui {
     }
 
     /** Displays prompt for task.*/
-    public static void showPrompt(){
+    public void showPrompt(){
         System.out.print("What do you want to do?\n");
     }
 
@@ -80,7 +80,7 @@ public class Ui {
      *
      * @param task the current task.
      */
-    public static void showMarkedTask(Task task) {
+    public void showMarkedTask(Task task) {
         System.out.println("Ok marked done: " + task);
     }
 
@@ -89,7 +89,7 @@ public class Ui {
      *
      * @param task the current task.
      */
-    public static void showUnmarkedTask(Task task) {
+    public void showUnmarkedTask(Task task) {
         System.out.println("Ok marked undone: " + task);
     }
 
@@ -98,19 +98,18 @@ public class Ui {
      *
      * @param tasks the list of tasks.
      */
-    public static void showTasksSize(List<Task> tasks) {
-        System.out.println("Now, you have " + tasks.size() + " tasks in your list.");
+    public void showTasksSize(TaskList tasks) {
+        System.out.println("Now, you have " + tasks.getAllTasks().size() + " tasks in your list.");
     }
 
     /**
      * Displays confirmation that task is being deleted from the list.
      *
-     * @param tasks the list of tasks.
-     * @param index the index of task being removed.
+     * @param deletedTask The task that is being deleted.
      */
-    public static void showDelete(List<Task> tasks, int index) {
+    public void showDelete(Task deletedTask) {
         System.out.print("Noted, now removing task: ");
-        System.out.println(tasks.get(index).description);
+        System.out.println(deletedTask.description);
     }
 
     /**
@@ -118,7 +117,7 @@ public class Ui {
      *
      * @param currTask the newly added task.
      */
-    public static void showAddedTask(Task currTask){
+    public void showAddedTask(Task currTask){
         System.out.println("Got it. I've added task:");
         System.out.println(currTask);
     }
@@ -129,8 +128,8 @@ public class Ui {
      * @param tasks the list of tasks being saved/
      * @param filePath the file path where tasks will be stored at.
      */
-    public static void showSavingToStorage(List<Task> tasks, String filePath){
-        System.out.printf("Saving %d tasks into %s%n", tasks.size(), filePath);
+    public void showSavingToStorage(TaskList tasks, String filePath){
+        System.out.printf("Saving %d tasks into %s%n", tasks.getAllTasks().size(), filePath);
     }
 
 
@@ -140,7 +139,7 @@ public class Ui {
      * @param firstLetter the first letter of line which indicates what task type.
      * @param currTaskLine the full line of text read from storage.
      */
-    public static void showWrongFormat(String firstLetter, String currTaskLine){
+    public void showWrongFormat(String firstLetter, String currTaskLine){
         String taskType = switch (firstLetter) {
             case "T" -> "ToDo";
             case "D" -> "Deadline";

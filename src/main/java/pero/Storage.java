@@ -11,7 +11,9 @@ import java.util.Scanner;
 
 
 /**
- * Handles saving to storage, and retrieval/loading from storage
+ * Responsible for reading and writing to a file
+ * Responsible for saving task to storage
+ * Should not call UI
  */
 public class Storage {
     private final String filePath;
@@ -23,8 +25,6 @@ public class Storage {
     public String getFilePath() {
         return this.filePath;
     }
-
-    //
 
     /**
      * Writes tasks from this session to Pero_storage to be stored
@@ -46,7 +46,7 @@ public class Storage {
      * If 0, unmarked.
      *
      * @param oneZero First char: either 1 or 0.
-     * @return whether task is marked or unmarked.
+     * @return Whether task is marked or unmarked.
      */
     private boolean isMarked(String oneZero) {
         if (oneZero.equals("1")) { // marked
@@ -61,14 +61,15 @@ public class Storage {
     /**
      * Loads all the tasks from filePath storage
      * Parse through each line and convert to task obj to add to task list.
+     * PeroExceptions (where line is invalid) are thrown and handled within loadList.
      *
-     * @return Task list.
+     * @return Task list object.
      * @throws IOException If file path cannot be found or read. (outside of control)
-     * @throws PeroException If line from storage is invalid.
      */
-    public TaskList loadList() throws IOException, PeroException {
+    public TaskList loadList() throws IOException {
 
-        TaskList tasks = new TaskList(); // initialise empty task to add read tasks from storage to
+        // initialise empty task to add tasks read from storage
+        TaskList tasks = new TaskList();
 
         File file = new File(this.filePath);
         if (!file.exists()) {
@@ -77,15 +78,11 @@ public class Storage {
         }
 
         Scanner scanner = new Scanner(file);
-
-        //start loop of scanning next and next line in storage file
         while (scanner.hasNext()) {
             String currTaskLine = scanner.nextLine();
-
             if (currTaskLine.isEmpty()) {
-                continue; //go to next line if empty line encountered
+                continue;
             }
-
             String[] parts = currTaskLine.split(" \\| "); //split the line into parts
             String firstLetter = parts[0];
 
@@ -95,7 +92,6 @@ public class Storage {
                     case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
                             throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
-                            //ui.showWrongFormat(firstLetter,currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
