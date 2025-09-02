@@ -42,56 +42,39 @@ public class Pero {
         ui.showTaskList(tasks);
 
         String input = ""; //initialise input
-        while (true) {
+        boolean isRunning = true;
+        while (isRunning) {
             ui.showPrompt();
             input = sc.nextLine();
 
-            if (input.equalsIgnoreCase("bye")) {
-                break;  // exit the loop immediately
-            }
-
+            //find out what command type the input line is
+            Command cmd = Parser.parseInputCommand(input);
             try {
-                if (input.equalsIgnoreCase("help")) {
-                    ui.showGuideLines();
-                } else if (input.equalsIgnoreCase("list")) {
-                    ui.showTaskList(tasks);
-
-                } else if (input.matches("mark (\\d+)")) {
-                    // get index by converting string to int
-                    // split input and get second part, -1 to match 0-indexing
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    Task currTask = tasks.markTask(index);
-                    ui.showMarkedTask(currTask);
-
-                } else if (input.matches("unmark (\\d+)")) {
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    Task currTask = tasks.unmarkTask(index);
-                    ui.showUnmarkedTask(currTask);
-
-                } else if (input.matches("delete (\\d+)")) {
-                    int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                    Task deletedTask = tasks.removeTask(index);
-                    ui.showDelete(deletedTask);
-                    ui.showTasksSize(tasks);
-
-                } else if (input.startsWith("todo".toLowerCase())
-                        || input.startsWith("deadline".toLowerCase())
-                        || input.startsWith("event".toLowerCase())) {
-                    // if input starts with correct task type
-                    // if wrong, throws PeroException
-                    Task currTask = tasks.addTaskFromInput(input);
-                    ui.showAddedTask(currTask);
-                    ui.showTasksSize(tasks);
-
-                } else {
-                    throw new PeroException("Oops! Idk whats that, pls try again.");
+                switch (cmd.type) {
+                    case BYE -> isRunning = false; //break out of current loop
+                    case HELP -> ui.showGuideLines();
+                    case LIST -> ui.showTaskList(tasks);
+                    case MARK -> ui.showMarkedTask(tasks.markTask(cmd.index));
+                    case UNMARK -> ui.showUnmarkedTask(tasks.unmarkTask(cmd.index));
+                    case DELETE -> {
+                        ui.showDelete(tasks.removeTask(cmd.index));
+                        ui.showTasksSize(tasks);
+                    }
+                    case TODO, DEADLINE, EVENT -> {
+                        ui.showAddedTask(tasks.addTaskFromInput(input));
+                        ui.showTasksSize(tasks);
+                    }
                 }
-            } catch (PeroException e) { //catches all the exception from current user input
+
+            // unknown task type identified, print error
+            // go to next iteration: await next user input to scan
+            } catch (PeroException e) {
                 ui.showExceptions(e.getMessage());
             }
             ui.showEmptyLine();
         }
 
+        //after ending loop of scanning when "bye" user input
         try {
             ui.showSavingToStorage(tasks, storage.getFilePath());
             storage.saveList(tasks);
@@ -100,7 +83,6 @@ public class Pero {
         }
         ui.showExit();
     }
-
 
     public static void main(String[] args) {
         new Pero("Pero_storage.txt").run();

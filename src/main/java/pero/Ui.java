@@ -19,7 +19,8 @@ public class Ui {
 
     /** Displays welcome message.*/
     public void showWelcome() {
-        System.out.println("Hello, I'm Pero! I am here to track ur tasks.");
+        System.out.println("Hello, I'm Pero! I am here to track ur tasks. " +
+                "If anything unsure, input 'help' into command line");
     }
 
     /** Displays exit message. */
