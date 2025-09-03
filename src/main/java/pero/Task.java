@@ -48,7 +48,7 @@ public abstract class Task {
      *
      */
 
-    protected static LocalDateTime parseDateTime(String input) throws PeroException {
+    public static LocalDateTime parseDateTime(String input) throws PeroException {
         try {
             return LocalDateTime.parse(input, INPUT_FORMATTER);
         } catch (DateTimeException e) {
