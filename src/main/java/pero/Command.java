@@ -11,7 +11,7 @@ public class Command {
     /**
      * Constructor of command object
      *
-     * @param type Command type : BYE, HELP, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, INVALID.
+     * @param type Command type : BYE, HELP, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, INVALID, FIND
      * @param index Index of curr task in relation to raw task list.
      * @param taskInput Current raw user line input.
      */
