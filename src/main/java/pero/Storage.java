@@ -11,7 +11,9 @@ import java.util.Scanner;
 
 
 /**
- * Handles saving to storage, and retrieval/loading from storage
+ * Responsible for reading and writing to a file
+ * Responsible for saving task to storage
+ * Should not call UI
  */
 public class Storage {
     private final String filePath;
@@ -24,105 +26,108 @@ public class Storage {
         return this.filePath;
     }
 
-    //write to Pero_storage
-    public void saveList(List<Task> tasks) throws IOException { //where does it catch?
+    /**
+     * Writes tasks from this session to Pero_storage to be stored
+     *
+     * @param tasks Task list of tasks accumulated from this session.
+     * @throws IOException If filePath used to write to is invalid
+     */
+    public void saveList(TaskList tasks) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        for (Task t : tasks) {
+        for (Task t : tasks.getAllTasks()) {
             fw.write(t.toStorageString() + "\n");
         }
         fw.close();
     }
 
-    private static boolean isMarked(String oneZero) {
-        if (oneZero.equals("1")) { //marked
+    /**
+     * Checks whether first char in line is either 1 or 0.
+     * If 1, marked.
+     * If 0, unmarked.
+     *
+     * @param oneZero First char: either 1 or 0.
+     * @return Whether task is marked or unmarked.
+     */
+    private boolean isMarked(String oneZero) {
+        if (oneZero.equals("1")) { // marked
             return true;
-        } else if (oneZero.equals("0")) { //unmarked
+        } else if (oneZero.equals("0")) { // unmarked
             return false;
-        } else { //wrong
+        } else { // not 1 or 0
             throw new IllegalArgumentException("Invalid marked value: " + oneZero);
         }
     }
 
-    //load from Pero_storage
-    public List<Task> loadList() {
-        //new list to store
-        List<Task> tasks = new ArrayList<>();
-        try {
-            File f = new File(this.filePath); //what if no filepath
-            Scanner s = new Scanner(f); //may throw FileNotFoundException
+    /**
+     * Loads all the tasks from filePath storage
+     * Parse through each line and convert to task obj to add to task list.
+     * PeroExceptions (where line is invalid) are thrown and handled within loadList.
+     *
+     * @return Task list object.
+     * @throws IOException If file path cannot be found or read. (outside of control)
+     */
+    public TaskList loadList() throws IOException {
 
-            while (s.hasNext()) {
-                String currTaskLine = s.nextLine();
-                if (currTaskLine.isEmpty()) {
-                    continue;
-                }
+        // initialise empty task to add tasks read from storage
+        TaskList tasks = new TaskList();
 
-                //parse through each line and convert to task to add to tasks
-                //char firstChar = currTaskLine.charAt(0); //see what type of pero.Task
+        File file = new File(this.filePath);
+        if (!file.exists()) {
+            // return tasks; // return empty list if no file found
+            throw new IOException("No storage file found in filePath: " + this.filePath);
+        }
 
-                String[] parts = currTaskLine.split(" \\| "); //split the line into parts
-                String firstChar = parts[0];
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String currTaskLine = scanner.nextLine();
+            if (currTaskLine.isEmpty()) {
+                continue;
+            }
+            String[] parts = currTaskLine.split(" \\| "); //split the line into parts
+            String firstLetter = parts[0];
 
-                switch (firstChar) {
+            //if error then catch and go to next line (next iteration of loop)
+            try {
+                switch (firstLetter) {
                     case "T": { //pero.ToDo
                         if (parts.length != 3) { //wrong format
-                            // throw new IllegalArgumentException("Invalid pero.ToDo line in storage file: " + currTaskLine);
-                            System.out.println("Skipped wrong format ToDo line: " + currTaskLine);
-                            continue;
+                            throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
                         Task t = new ToDo(parts[2], isDone);
-                        tasks.add(t);
+                        tasks.addTask(t);
                         break;
                     }
                     case "D": { //Deadline
                         if (parts.length != 4) { //wrong format
-                            //throw new IllegalArgumentException("Invalid Deadline line in storage file: " + currTaskLine);
-                            System.out.println("Skipped invalid Deadline line: " + currTaskLine);
-                            continue;
+                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
-                        try {
-                            LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
-                            Task t = new Deadline(parts[2], isDone, byTimeObj);
-                            tasks.add(t);
-                        } catch (PeroException e) {
-                            System.out.println("Skipped invalid Deadline (date&time format) in storage: "
-                                    + currTaskLine );
-                        }
+                        LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
+                        Task t = new Deadline(parts[2], isDone, byTimeObj);
+                        tasks.addTask(t);
                         break;
                     }
                     case "E": { //Event
                         if (parts.length != 5) { //wrong format
-                            //throw new IllegalArgumentException("Invalid Event line in storage file: " + currTaskLine);
-                            System.out.println("Skipped invalid Event line: " + currTaskLine);
-                            continue;
+                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
                         }
                         boolean isDone = isMarked(parts[1]);
-                        try {
-                            LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
-                            LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
-                            Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
-                            tasks.add(t);
-                        } catch (PeroException e) {
-                            System.out.println("Skipped invalid Event (date&time format) in storage: "
-                                    + currTaskLine );
-                        }
+
+                        LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
+                        LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
+                        Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
+                        tasks.addTask(t);
                         break;
                     }
                     default: // not any of the tasks
-                        throw new IllegalArgumentException(
-                                "Unknown pero.Task type found: " + firstChar + " in " + currTaskLine);
+                        throw new PeroException("Unknown task type line from storage: " + currTaskLine);
                 }
+            } catch (PeroException e) {
+                //throw new PeroException("Skipping invalid line from storage: " + currTaskLine);
+                System.out.println("Skipping invalid line: " + currTaskLine); // how? if iw to remove all ui from storage
             }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid task line: " + e);
         }
         return tasks;
     }
-
-
 }

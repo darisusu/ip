@@ -1,0 +1,8 @@
+E | 1 | eat at dining hall | 2025-02-12 2030 | 2025-02-12 2030
+T | 0 | clean room
+aknaelrfkrearg
+D | 1 | finish hw | 2025-01-09 2359
+lreanllafkgmeapor
+T | 0 | brush teeth
+3 | 0 | brush teeth
+
