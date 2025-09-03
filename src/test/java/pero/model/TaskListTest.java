@@ -1,6 +1,8 @@
-package pero;
+package pero.model;
 
 import org.junit.jupiter.api.Test;
+import pero.PeroException;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 

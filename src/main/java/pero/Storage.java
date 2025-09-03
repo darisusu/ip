@@ -1,12 +1,15 @@
 package pero;
 
+import pero.model.Deadline;
+import pero.model.Event;
+import pero.model.Task;
+import pero.model.TaskList;
+import pero.model.ToDo;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -89,7 +92,7 @@ public class Storage {
             //if error then catch and go to next line (next iteration of loop)
             try {
                 switch (firstLetter) {
-                    case "T": { //pero.ToDo
+                    case "T": { //pero.model.ToDo
                         if (parts.length != 3) { //wrong format
                             throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
                         }

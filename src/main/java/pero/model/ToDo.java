@@ -1,4 +1,6 @@
-package pero;
+package pero.model;
+
+import pero.PeroException;
 
 /** Represents ToDo task with description.*/
 public class ToDo extends Task {
@@ -23,12 +25,12 @@ public class ToDo extends Task {
      */
     public static ToDo fromInput(String input) throws PeroException {
         if (input.equals("todo")) {
-            throw new PeroException("Oops! pero.ToDo requires 'todo [task]' format, try again!");
+            throw new PeroException("Oops! pero.model.ToDo requires 'todo [task]' format, try again!");
         }
         String taskToDo = input.substring(5); //starts at index 5, remove "todo "
 
         if (taskToDo.isBlank()) {
-            throw new PeroException("Oops! pero.ToDo requires 'todo [task]' format, try again!");
+            throw new PeroException("Oops! pero.model.ToDo requires 'todo [task]' format, try again!");
         }
         return new ToDo(taskToDo, false);
     }

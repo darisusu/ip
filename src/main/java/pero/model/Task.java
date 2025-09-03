@@ -1,4 +1,6 @@
-package pero;
+package pero.model;
+
+import pero.PeroException;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
@@ -65,7 +67,6 @@ public abstract class Task {
      * @param input String date time format from storage.
      * @return LocalDateTime
      * @throws PeroException If invalid date time format.
-     *
      */
 
     public static LocalDateTime parseDateTime(String input) throws PeroException {
@@ -82,5 +83,4 @@ public abstract class Task {
     }
 
     public abstract String toStorageString();
-
 }
