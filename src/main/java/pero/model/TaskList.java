@@ -103,11 +103,26 @@ public class TaskList {
     }
 
     /**
-     * Adds a task directly to raw task list (used by Storage).
+     * Adds a task directly to raw task list.
      * @param task Current task.
      */
     public void addTask(Task task) {
         rawTaskList.add(task);
     }
 
+    /**
+     * Extract all tasks containing relevant keyword and return in a TaskList
+     *
+     * @param keyword Keyword to find in each task.
+     * @return TaskList containing tasks that match/contain the keyword.
+     */
+    public TaskList findTasks(String keyword){
+        TaskList matchedTasks = new TaskList();
+        for (Task t : rawTaskList) {
+            if (t.getDescription().toLowerCase().contains(keyword.toLowerCase())){
+                matchedTasks.addTask(t);
+            }
+        }
+        return matchedTasks;
+    }
 }

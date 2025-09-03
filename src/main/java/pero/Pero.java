@@ -66,6 +66,14 @@ public class Pero {
                         ui.showAddedTask(tasks.addTaskFromInput(input));
                         ui.showTasksSize(tasks);
                     }
+                    case FIND -> {
+                        String keyword = cmd.taskInput;
+                        TaskList matchingResults = tasks.findTasks(keyword);
+                        ui.showMatchedTasks(matchingResults,keyword);
+                    }
+                    case INVALID -> {
+                        throw new PeroException("Incorrect input. If you need some help, input 'help'.");
+                    }
                 }
 
             // unknown task type identified, print error

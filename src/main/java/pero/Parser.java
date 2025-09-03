@@ -52,6 +52,11 @@ public class Parser {
         } else if (input.toLowerCase().startsWith("event")) {
             return new Command(CommandType.EVENT, -1, input);
 
+
+        } else if ((input.toLowerCase().startsWith("find"))) {
+            return new Command(CommandType.FIND, -1, input.substring(4).trim());
+            //to retrieve keyword after find
+
         // If unrecognised command
         } else {
             return new Command(CommandType.INVALID);

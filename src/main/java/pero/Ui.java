@@ -12,6 +12,7 @@ public class Ui {
 
     /**
      * Displays an error message to the console.
+     *
      * @param message Error message.
      */
     public void showExceptions(String message){
@@ -33,7 +34,7 @@ public class Ui {
      * Displays stored tasks in list if there is.
      * Else prompts users to start.
      *
-     * @param tasks the list of tasks.
+     * @param tasks List of tasks.
      */
     public void showTaskList(TaskList tasks) {
         if (!tasks.getAllTasks().isEmpty()) {
@@ -80,7 +81,7 @@ public class Ui {
     /**
      * Displays confirmation that task has been marked done.
      *
-     * @param task the current task.
+     * @param task Current task.
      */
     public void showMarkedTask(Task task) {
         System.out.println("Ok marked done: " + task);
@@ -89,7 +90,7 @@ public class Ui {
     /**
      * Displays confirmation that task has been marked undone.
      *
-     * @param task the current task.
+     * @param task Current task.
      */
     public void showUnmarkedTask(Task task) {
         System.out.println("Ok marked undone: " + task);
@@ -98,7 +99,7 @@ public class Ui {
     /**
      * Displays current number of tasks in task list.
      *
-     * @param tasks the list of tasks.
+     * @param tasks List of tasks.
      */
     public void showTasksSize(TaskList tasks) {
         System.out.println("Now, you have " + tasks.getAllTasks().size() + " tasks in your list.");
@@ -107,7 +108,7 @@ public class Ui {
     /**
      * Displays confirmation that task is being deleted from the list.
      *
-     * @param deletedTask The task that is being deleted.
+     * @param deletedTask Task that is being deleted.
      */
     public void showDelete(Task deletedTask) {
         System.out.print("Noted, now removing task: ");
@@ -117,7 +118,7 @@ public class Ui {
     /**
      * Displays confirmation that a new task has been added.
      *
-     * @param currTask the newly added task.
+     * @param currTask Newly added task.
      */
     public void showAddedTask(Task currTask){
         System.out.println("Got it. I've added task:");
@@ -127,8 +128,8 @@ public class Ui {
     /**
      * Displays confirmation that tasks are being saved to storage.
      *
-     * @param tasks the list of tasks being saved/
-     * @param filePath the file path where tasks will be stored at.
+     * @param tasks List of tasks being saved/
+     * @param filePath File path where tasks will be stored at.
      */
     public void showSavingToStorage(TaskList tasks, String filePath){
         System.out.printf("Saving %d tasks into %s%n", tasks.getAllTasks().size(), filePath);
@@ -136,10 +137,10 @@ public class Ui {
 
 
     /**
-     * Display warning that current task line being read from storage has wrong format.
+     * Displays warning that current task line being read from storage has wrong format.
      *
-     * @param firstLetter the first letter of line which indicates what task type.
-     * @param currTaskLine the full line of text read from storage.
+     * @param firstLetter First letter of line which indicates what task type.
+     * @param currTaskLine Full line of text read from storage.
      */
     public void showWrongFormat(String firstLetter, String currTaskLine){
         String taskType = switch (firstLetter) {
@@ -149,5 +150,26 @@ public class Ui {
             default -> "Unknown Task";
         };
         System.out.println("Skipped invalid " + taskType + " line: " + currTaskLine);
+    }
+
+
+    /**
+     * Displays list of tasks that match the keyword user is finding.
+     *
+     * @param tasks List of tasks accumulated.
+     * @param keyword Keyword to search for relevant tasks that have it.
+     */
+    public void showMatchedTasks(TaskList tasks, String keyword) {
+        if (!tasks.getAllTasks().isEmpty()) {
+            System.out.printf("Here are the tasks that match '%s' in your list: %n", keyword);
+            for (int i = 0; i < tasks.getAllTasks().size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.getAllTasks().get(i));
+            }
+        } else if (keyword.trim().isEmpty()){
+            System.out.println("Sorry, please key in the keyword you are looking to find.");
+
+        } else {
+            System.out.printf("Sorry, no tasks match '%s' in your list. %n", keyword);
+        }
     }
 }
