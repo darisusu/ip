@@ -1,11 +1,26 @@
 package pero;
 
+/** Represents ToDo task with description.*/
 public class ToDo extends Task {
 
+    /**
+     * Constructs new ToDo task with description and completion status
+     *
+     * @param description Text description of the task.
+     * @param isDone True if task marked done, false otherwise.
+     */
     public ToDo(String description, boolean isDone) {
         super(description, isDone);
     }
 
+
+    /**
+     * Creates ToDo task from raw user input String.
+     *
+     * @param input User input line.
+     * @return New ToDo task according to input.
+     * @throws PeroException If input is in wrong format.
+     */
     public static ToDo fromInput(String input) throws PeroException {
         if (input.equals("todo")) {
             throw new PeroException("Oops! pero.ToDo requires 'todo [task]' format, try again!");

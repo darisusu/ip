@@ -30,10 +30,10 @@ public class Deadline extends Task {
     /**
      * Returns new Deadline object.
      *
-     * @param input Input from user.
-     * @return Deadline deadline.
-     * @throws PeroException if wrong format
-    */
+     * @param input User input line.
+     * @return New Deadline task according to input.
+     * @throws PeroException If input is in wrong format.
+     */
     public static Deadline fromInput(String input) throws PeroException{
         if (input.equals(COMMAND_KEYWORD) || !input.contains(BY_SEPARATOR)) {
             throw new PeroException(WRONG_FORMAT_EXCEPTION);

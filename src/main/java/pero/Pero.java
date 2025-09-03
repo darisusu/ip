@@ -84,6 +84,12 @@ public class Pero {
         ui.showExit();
     }
 
+    /**
+     * Entry point of the application.
+     * Initializes a new Pero instance with the specified storage file and starts the main application loop.
+     *
+     * @param args Command-line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         new Pero("Pero_storage.txt").run();
     }

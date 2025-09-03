@@ -15,10 +15,9 @@ public class Parser {
         return Integer.parseInt(input.split(" ")[1]) - 1;
     }
 
-    //detect what command inputted
 
     /**
-     * Converts user input line into command type
+     * Converts current user input line into command type
      *
      * @param input User input line.
      * @return Command type object

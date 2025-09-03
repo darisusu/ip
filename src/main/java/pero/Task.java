@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 
 /**
- * Generic task in task management system
- * Abstract base class for ToDo, Deadline, Event subclasses to extend
+ * Abstract base class that represents a generic task in task management system.
+ * Subclasses ToDo, Deadline, Event extend this class.
  */
 public abstract class Task {
     protected String description;
@@ -16,25 +16,45 @@ public abstract class Task {
     private static final String DATE_TIME_PATTERN = "yyyy-dd-MM HHmm";
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
-
+    /**
+     * Constructs a new Task with a description and completion status.
+     *
+     * @param description The description of the task.
+     * @param isDone True if the task is initially marked as done, false otherwise.
+     */
     public Task(String description, boolean isDone) {
         this.description = description;
         this.isDone = isDone;
     }
 
-    //may not need to use
-    public String getDescription() {
+    /**
+     * Gets the description of this task.
+     *
+     * @return Task description.
+     */
+    public String getDescription() { // may not be used
         return this.description;
     }
 
+    /**
+     * Gets the status icon representing whether this task is done.
+     *
+     * @return "X" if task is done, " " (blank) if task is not done.
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    /**
+     * Marks this task as done.
+     */
     public void markAsDone() {
         this.isDone = true;
     }
 
+    /**
+     * Marks this task as undone.
+     */
     public void markAsUndone() {
         this.isDone = false;
     }

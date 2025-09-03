@@ -1,7 +1,7 @@
 package pero;
 
 /**
- * Command type
+ * Command class represents a parsed user command in the Pero task management application.
  */
 public class Command {
     public final CommandType type;
@@ -9,11 +9,11 @@ public class Command {
     public final String taskInput;   // For TODO, DEADLINE, EVENT
 
     /**
-     * Constructor of command object
+     * Constructs a Command object with the specified type, index, and task input.
      *
-     * @param type Command type : BYE, HELP, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, INVALID.
-     * @param index Index of curr task in relation to raw task list.
-     * @param taskInput Current raw user line input.
+     * @param type The type of command (BYE, HELP, LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, INVALID)
+     * @param index The index of the task in the task list (for commands that operate on a task)
+     * @param taskInput The raw user input string (for commands that create a new task)
      */
     public Command(CommandType type, int index, String taskInput) {
         this.type = type;
@@ -22,8 +22,15 @@ public class Command {
     }
 
     // For commands without index/taskInput
+
+    /**
+     * Constructs a Command object for command types that do not require an index or task input (e.g., BYE, HELP, LIST).
+     * The {@code index} is set to -1 and {@code taskInput} is set to {@code null} as placeholders.
+     *
+     * @param type Command types that don't require indexing nor input: BYE, HELP, LIST.
+     */
     public Command(CommandType type) {
-        // calls constructor for normal indexed type, but with -1 as placeholder
+        // calls constructor for normal indexed type, but with -1 and null as placeholder
         this(type, -1, null);
     }
 }
