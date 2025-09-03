@@ -1,5 +1,7 @@
 package pero;
 
+import pero.model.TaskList;
+
 import java.io.IOException;
 import java.util.Scanner;
 

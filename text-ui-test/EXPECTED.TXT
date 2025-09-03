@@ -1,6 +1,6 @@
 Hello, I'm Pero! I am here to track ur tasks.
 What's the task?
-Oops! pero.ToDo requires 'todo [task]' format, try again!
+Oops! pero.model.ToDo requires 'todo [task]' format, try again!
 
 What's the task?
 Got it. I've added this task:

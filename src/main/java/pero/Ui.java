@@ -1,6 +1,7 @@
 package pero;
 
-import java.util.List;
+import pero.model.Task;
+import pero.model.TaskList;
 
 /** Handles user-facing interactions.*/
 public class Ui {
@@ -110,7 +111,7 @@ public class Ui {
      */
     public void showDelete(Task deletedTask) {
         System.out.print("Noted, now removing task: ");
-        System.out.println(deletedTask.description);
+        System.out.println(deletedTask.getDescription());
     }
 
     /**
