@@ -92,40 +92,40 @@ public class Storage {
             //if error then catch and go to next line (next iteration of loop)
             try {
                 switch (firstLetter) {
-                    case "T": { //pero.model.ToDo
-                        if (parts.length != 3) { //wrong format
-                            throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
-                        }
-                        boolean isDone = isMarked(parts[1]);
-                        Task t = new ToDo(parts[2], isDone);
-                        tasks.addTask(t);
-                        break;
+                case "T": { //pero.model.ToDo
+                    if (parts.length != 3) { //wrong format
+                        throw new PeroException("Invalid ToDo line from storage: " + currTaskLine);
                     }
-                    case "D": { //Deadline
-                        if (parts.length != 4) { //wrong format
-                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
-                        }
-                        boolean isDone = isMarked(parts[1]);
-                        LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
-                        Task t = new Deadline(parts[2], isDone, byTimeObj);
-                        tasks.addTask(t);
-                        break;
-                    }
-                    case "E": { //Event
-                        if (parts.length != 5) { //wrong format
-                            throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
-                        }
-                        boolean isDone = isMarked(parts[1]);
-
-                        LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
-                        LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
-                        Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
-                        tasks.addTask(t);
-                        break;
-                    }
-                    default: // not any of the tasks
-                        throw new PeroException("Unknown task type line from storage: " + currTaskLine);
+                    boolean isDone = isMarked(parts[1]);
+                    Task t = new ToDo(parts[2], isDone);
+                    tasks.addTask(t);
+                    break;
                 }
+                case "D": { //Deadline
+                    if (parts.length != 4) { //wrong format
+                        throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
+                    }
+                    boolean isDone = isMarked(parts[1]);
+                    LocalDateTime byTimeObj = Task.parseDateTime(parts[3]);
+                    Task t = new Deadline(parts[2], isDone, byTimeObj);
+                    tasks.addTask(t);
+                    break;
+                }
+                case "E": { //Event
+                    if (parts.length != 5) { //wrong format
+                        throw new PeroException("Invalid Deadline line from storage: " + currTaskLine);
+                    }
+                    boolean isDone = isMarked(parts[1]);
+
+                    LocalDateTime fromTimeObj = Task.parseDateTime(parts[3]);
+                    LocalDateTime byTimeObj = Task.parseDateTime(parts[4]);
+                    Task t = new Event(parts[2], isDone, fromTimeObj, byTimeObj);
+                    tasks.addTask(t);
+                    break;
+                }
+                default: // not any of the tasks
+                    throw new PeroException("Unknown task type line from storage: " + currTaskLine);
+            }
             } catch (PeroException e) {
                 //throw new PeroException("Skipping invalid line from storage: " + currTaskLine);
                 System.out.println("Skipping invalid line: " + currTaskLine); // how? if iw to remove all ui from storage
