@@ -8,19 +8,15 @@ import java.util.stream.Collectors;
 /** Handles user-facing interactions.*/
 public class GuiUi {
 
-//    /** Displays empty line/ buffer for visual spacing. */
-//    public void showEmptyLine() {
-//        System.out.println();
-//    }
 
-//    /**
-//     * Displays an error message to the console.
-//     *
-//     * @param message Error message.
-//     */
-//    public void showExceptions(String message){
-//        System.out.println(message);
-//    }
+    /**
+     * Displays an error message to the console.
+     *
+     * @param message Error message.
+     */
+    public String getExceptions(String message){
+        return message;
+    }
 
     /** Displays welcome message.*/
     public String getWelcome() {
@@ -52,28 +48,41 @@ public class GuiUi {
     /**
      * Starts users off with guide: possible inputs and explanations.
      */
-    public String getWelcomeMessage() {
+    public String getGuidelines() {
         return """
-           Welcome to Pero! Here’s how to use me:
+        Welcome to Pero!
 
-           Adding tasks:
-           - todo [description]                                    : Add a simple task
-           - deadline [description] /by [YYYY-DD-MM HHmm]          : Add a task with a deadline
-           - event [description] /from [YYYY-DD-MM HHmm] /to [YYYY-DD-MM HHmm] : Add an event with start and end times
+        Here’s how to use me:
 
-           Managing tasks:
-           - list                                                  : Show all tasks
-           - mark [task number]                                    : Mark a task as done
-           - unmark [task number]                                  : Mark a task as not done
-           - delete [task number]                                  : Delete a task
+        Adding tasks:
+          - todo [description]
+              Add a simple task
+          - deadline [description] /by [YYYY-MM-DD HHmm]
+              Add a task with a deadline
+          - event [description] /from [YYYY-MM-DD HHmm] /to [YYYY-MM-DD HHmm]
+              Add an event with start and end times
 
-           Exiting:
-           - bye                                                   : Exit Pero and saves tasks
+        Managing tasks:
+          - list
+              Show all tasks
+          - mark [task number]
+              Mark a task as done
+          - unmark [task number]
+              Mark a task as not done
+          - delete [task number]
+              Delete a task
 
-           Note: Date/time format must be YYYY-MM-dd HH:mm (e.g. 2025-09-01 16:00)
+        Exiting:
+          - bye
+              Exit Pero and save tasks
 
-           Now lets start!
-           """;
+        Note:
+          Date/time format must be YYYY-MM-dd HH:mm
+          (e.g. 2025-09-01 16:00)
+
+        Now let’s start!
+        """;
+
     }
 
     /** Displays prompt for task.*/

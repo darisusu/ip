@@ -31,6 +31,11 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        dialogContainer.getChildren().add(
+                DialogBox.getPeroDialog("Hello! I’m Pero 👋 How can I help you today? "
+                        + "(If u need help, just say 'help'!)", peroImage)
+        );
     }
 
     /** Injects the Pero instance */
