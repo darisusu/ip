@@ -1,5 +1,8 @@
 package pero;
 
+import pero.command.Command;
+import pero.command.CommandType;
+
 /** Takes raw user input and parses and returns objects or index*/
 public class Parser {
 

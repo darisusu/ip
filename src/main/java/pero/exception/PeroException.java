@@ -1,4 +1,4 @@
-package pero;
+package pero.exception;
 
 //checked exception
 public class PeroException extends Exception {

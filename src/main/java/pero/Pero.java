@@ -1,15 +1,23 @@
 package pero;
 
+import pero.command.Command;
+import pero.exception.PeroException;
 import pero.model.TaskList;
+import pero.ui.GuiUi;
+import pero.ui.Ui;
 
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Core application logic, independent of CLI or GUI
+ */
 public class Pero {
 
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
+    private final GuiUi guiUi;
 
 
     /**
@@ -22,6 +30,7 @@ public class Pero {
 
         this.ui = new Ui();
         this.storage = new Storage(filePath);
+        this.guiUi = new GuiUi();
 
         // Temp task list so that it compiles w/o error:
         // "Variable 'tasks' might already have been assigned to"
@@ -36,6 +45,9 @@ public class Pero {
         this.tasks = tasksTemp;
     }
 
+    /**
+     * Continuous loop waiting for scanner results, parsing and output using ui for each input
+     */
     public void run() {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
 
@@ -95,12 +107,58 @@ public class Pero {
     }
 
     /**
-     * Entry point of the application.
-     * Initializes a new Pero instance with the specified storage file and starts the main application loop.
-     *
-     * @param args Command-line arguments (not used in this application).
+     * Mirrors run(), but now is for GUI
+     * returns String i.e. label for each user input
      */
-    public static void main(String[] args) {
-        new Pero("Pero_storage.txt").run();
+    public String getResponse(String input) {
+        Command cmd = Parser.parseInputCommand(input);
+        switch (cmd.type) {
+        case BYE -> {
+            return guiUi.getExitMessage(); //break out of current loop
+        }
+        case HELP -> {
+            return guiUi.getGuidelines();
+        }
+        case LIST -> {
+            return guiUi.getTaskListMessage(tasks);
+        }
+        case MARK -> {
+            return guiUi.getMarkedTaskMessage(tasks.markTask(cmd.index));
+        }
+        case UNMARK -> {
+            return guiUi.getUnmarkedTaskMessage(tasks.unmarkTask(cmd.index));
+        }
+        case DELETE -> {
+            return guiUi.getDeleteTaskMessage(tasks.removeTask(cmd.index))
+                    + "\n"
+                    + guiUi.getTasksSizeMessage(tasks);
+        }
+        case TODO, DEADLINE, EVENT -> {
+            return guiUi.getAddedTaskMessage(tasks.removeTask(cmd.index))
+                    + "\n"
+                    + guiUi.getTasksSizeMessage(tasks);
+        }
+        case FIND -> {
+            String keyword = cmd.taskInput;
+            TaskList matchingResults = tasks.findTasks(keyword);
+            return guiUi.getMatchedTasks(matchingResults, keyword);
+        }
+        case INVALID -> {
+            return "Incorrect input. If you need some help, input 'help'.";
+        }
+        }
+        return "Idk man.";
     }
+
+//    /**
+//     * Entry point of the application.
+//     * Initializes a new Pero instance with the specified storage file and starts the main application loop.
+//     *
+//     * @param args Command-line arguments (not used in this application).
+//     */
+//    public static void main(String[] args) {
+//        //new Pero("Pero_storage.txt").run();
+//        new Pero("Pero_storage.txt").getResponse();
+//    }
+
 }

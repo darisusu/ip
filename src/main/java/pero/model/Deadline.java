@@ -1,6 +1,6 @@
 package pero.model;
 
-import pero.PeroException;
+import pero.exception.PeroException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
