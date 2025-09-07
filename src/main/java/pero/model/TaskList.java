@@ -1,6 +1,6 @@
 package pero.model;
 
-import pero.PeroException;
+import pero.exception.PeroException;
 import pero.Storage;
 
 import java.io.IOException;

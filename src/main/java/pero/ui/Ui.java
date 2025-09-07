@@ -1,4 +1,4 @@
-package pero;
+package pero.ui;
 
 import pero.model.Task;
 import pero.model.TaskList;

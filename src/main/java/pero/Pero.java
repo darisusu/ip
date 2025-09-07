@@ -1,10 +1,16 @@
 package pero;
 
+import pero.command.Command;
+import pero.exception.PeroException;
 import pero.model.TaskList;
+import pero.ui.Ui;
 
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Core application logic, independent of CLI or GUI
+ */
 public class Pero {
 
     private final Storage storage;
@@ -36,6 +42,9 @@ public class Pero {
         this.tasks = tasksTemp;
     }
 
+    /**
+     * Continuous loop waiting for scanner results, parsing and output using ui for each input
+     */
     public void run() {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
 
@@ -102,5 +111,12 @@ public class Pero {
      */
     public static void main(String[] args) {
         new Pero("Pero_storage.txt").run();
+    }
+
+    /**
+     * Generates a default response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        return "I heard: " + input;
     }
 }

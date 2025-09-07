@@ -1,4 +1,4 @@
-package pero;
+package pero.command;
 
 /**
  * Command class represents a parsed user command in the Pero task management application.

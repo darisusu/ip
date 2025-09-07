@@ -1,6 +1,6 @@
 package pero.model;
 
-import pero.PeroException;
+import pero.exception.PeroException;
 
 /** Represents ToDo task with description.*/
 public class ToDo extends Task {
