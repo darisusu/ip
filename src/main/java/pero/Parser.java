@@ -15,7 +15,9 @@ public class Parser {
     public static int parseIndex(String input){
         //parseInt converts extracted string to integer
         //-1 to change to 0-based indexing
-        return Integer.parseInt(input.split(" ")[1]) - 1;
+        int parsedIndex = Integer.parseInt(input.split(" ")[1]) - 1;
+        assert parsedIndex >= 0;
+        return parsedIndex;
     }
 
 
