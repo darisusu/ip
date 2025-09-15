@@ -46,46 +46,9 @@ public class Pero {
     }
 
     /**
-<<<<<<< Updated upstream
      * Continuous loop waiting for scanner results, parsing and output using ui for each input
-     * run() is for UI
-=======
-     * Executes command based on cmd, while updating isRunning too.
-     * @param cmd Command type form input line.
-     * @return Boolean that updates isRunning
->>>>>>> Stashed changes
      */
-    private boolean executeCommand(Command cmd) throws PeroException{
-        switch (cmd.type) {
-            case BYE -> {
-                return false; //return for isRunning false to break out of current loop
-            }
-            case HELP -> ui.showGuideLines();
-            case LIST -> ui.showTaskList(tasks);
-            case MARK -> ui.showMarkedTask(tasks.markTask(cmd.index));
-            case UNMARK -> ui.showUnmarkedTask(tasks.unmarkTask(cmd.index));
-            case DELETE -> {
-                ui.showDelete(tasks.removeTask(cmd.index));
-                ui.showTasksSize(tasks);
-            }
-            case TODO, DEADLINE, EVENT -> {
-                ui.showAddedTask(tasks.addTaskFromInput(cmd.taskInput));
-                ui.showTasksSize(tasks);
-            }
-            case FIND -> {
-                String keyword = cmd.taskInput;
-                TaskList matchingResults = tasks.findTasks(keyword);
-                ui.showMatchedTasks(matchingResults, keyword);
-            }
-            case INVALID -> throw new PeroException("Incorrect input. If you need some help, input 'help'.");
-        }
-        return true;
-    }
-
-    /**
-     * Continuous loop waiting for scanner results, parsing and output using ui for each input.
-     */
-    public void run() throws PeroException {
+    public void run() {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
 
         //opening messages
@@ -100,10 +63,33 @@ public class Pero {
 
             //find out what command type the input line is
             Command cmd = Parser.parseInputCommand(input);
-
-            //updates isRunning while executing command for each cmd case
             try {
-                isRunning = executeCommand(cmd);
+                switch (cmd.type) {
+                    case BYE -> isRunning = false; //break out of current loop
+                    case HELP -> ui.showGuideLines();
+                    case LIST -> ui.showTaskList(tasks);
+                    case MARK -> ui.showMarkedTask(tasks.markTask(cmd.index));
+                    case UNMARK -> ui.showUnmarkedTask(tasks.unmarkTask(cmd.index));
+                    case DELETE -> {
+                        ui.showDelete(tasks.removeTask(cmd.index));
+                        ui.showTasksSize(tasks);
+                    }
+                    case TODO, DEADLINE, EVENT -> {
+                        ui.showAddedTask(tasks.addTaskFromInput(input));
+                        ui.showTasksSize(tasks);
+                    }
+                    case FIND -> {
+                        String keyword = cmd.taskInput;
+                        TaskList matchingResults = tasks.findTasks(keyword);
+                        ui.showMatchedTasks(matchingResults,keyword);
+                    }
+                    case INVALID -> {
+                        throw new PeroException("Incorrect input. If you need some help, input 'help'.");
+                    }
+                }
+
+            // unknown task type identified, print error
+            // go to next iteration: await next user input to scan
             } catch (PeroException e) {
                 ui.showExceptions(e.getMessage());
             }
