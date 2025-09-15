@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import pero.exception.PeroException;
 
+import java.io.IOException;
+
 /**
  * Controller for the main GUI.
  * Receives input from TextField and Button events
@@ -48,13 +50,17 @@ public class MainWindow extends AnchorPane {
     /**
      * Creates two dialog boxes, one echoing user input and the other containing Pero's reply and then appends them to
      * the dialog container. Clears the user input after processing.
-     * -
-     * To be changed (add logic)
      */
     @FXML
-    private void handleUserInput() throws PeroException {
+    private void handleUserInput() throws PeroException, IOException {
         String input = userInput.getText();
-        String response = pero.getResponse(input);
+        String response;
+
+        try {
+            response = pero.getResponse(input);
+        } catch (PeroException | IOException e) {
+            response = e.getMessage();
+        }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getPeroDialog(response, peroImage)

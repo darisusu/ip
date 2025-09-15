@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class Main extends Application {
 
-    private final Pero pero = new Pero("Pero_storage.txt");
+    private final Pero pero = new Pero("Pero_storage.txt"); // /CS2103/ip/Pero_storage.txt
 
     @Override
     public void start(Stage stage) {
