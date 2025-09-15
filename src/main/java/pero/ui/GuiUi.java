@@ -2,12 +2,14 @@ package pero.ui;
 
 import pero.model.Task;
 import pero.model.TaskList;
+import java.time.LocalDate;
+import java.util.List;
 
 import java.util.stream.Collectors;
 
 /** Handles user-facing interactions.*/
 public class GuiUi {
-
+    private static final int REMINDER_WINDOW_DAYS = 3;
 
     /**
      * Displays an error message to the console.
@@ -22,8 +24,32 @@ public class GuiUi {
     public String getWelcome(TaskList tasks) {
         return "Hello, I'm Pero! I am here to track ur tasks. \n"
                 + "If anything unsure, input 'help' into command line. \n"
-                + getTaskListMessage(tasks);
+                + getReminders(tasks);
+
     }
+
+    private String getReminders(TaskList tasks) {
+
+        StringBuilder reminders = new StringBuilder();
+        LocalDate today = LocalDate.now();
+        LocalDate daysLater = today.plusDays(REMINDER_WINDOW_DAYS);
+
+        for (Task t : tasks.getAllTasks()) {
+            LocalDate due = t.getDueDate();
+            if (due != null && !due.isBefore(today) && !due.isAfter(daysLater)) {
+                reminders.append("- ")
+                        .append(t.toString())
+                        .append("\n");
+            }
+        }
+
+        if (reminders.isEmpty()) {
+            return " No upcoming tasks in the next " + REMINDER_WINDOW_DAYS + " days!";
+        } else {
+            return " Tasks due in the next " + REMINDER_WINDOW_DAYS + " days:\n" + reminders;
+        }
+    }
+
 
     /** Displays exit message. */
     public String getExitMessage() {

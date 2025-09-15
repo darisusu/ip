@@ -3,6 +3,7 @@ package pero.model;
 import pero.exception.PeroException;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -83,4 +84,6 @@ public abstract class Task {
     }
 
     public abstract String toStorageString();
+
+    public abstract LocalDate getDueDate();
 }
