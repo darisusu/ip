@@ -2,6 +2,8 @@ package pero.model;
 
 import pero.exception.PeroException;
 
+import java.time.LocalDate;
+
 /** Represents ToDo task with description.*/
 public class ToDo extends Task {
 
@@ -38,6 +40,11 @@ public class ToDo extends Task {
     @Override
     public String toStorageString() {
         return "T | " + (isDone? "1" : "0") + " | " + this.description;
+    }
+
+    @Override
+    public LocalDate getDueDate() {
+        return null; // TODO doesnt have duedate
     }
 
     @Override

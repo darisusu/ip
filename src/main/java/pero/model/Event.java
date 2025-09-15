@@ -2,6 +2,7 @@ package pero.model;
 
 import pero.exception.PeroException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -71,6 +72,11 @@ public class Event extends Task {
                 " | " + this.description + " | "
                 + this.fromTimeObj.format(STORAGE_FORMATTER) + " | "
                 + this.toTimeObj.format(STORAGE_FORMATTER);
+    }
+
+    @Override
+    public LocalDate getDueDate() {
+        return fromTimeObj.toLocalDate(); // extracts local date portion
     }
 
     @Override

@@ -2,6 +2,7 @@ package pero.model;
 
 import pero.exception.PeroException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -62,6 +63,11 @@ public class Deadline extends Task {
         return "D | " + (isDone? "1" : "0") +
                 " | " + this.description + " | " +
                 this.byTimeObj.format(STORAGE_FORMATTER); // stores string with same pattern YYYY-DD-MM HHmm
+    }
+
+    @Override
+    public LocalDate getDueDate() {
+        return byTimeObj.toLocalDate(); // extracts local date portion
     }
 
     @Override
