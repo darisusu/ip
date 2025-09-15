@@ -132,6 +132,9 @@ public class GuiUi {
      * @param currTask Newly added task.
      */
     public String getAddedTaskMessage(Task currTask) {
+
+
+
         return "Got it. I've added task:\n" + currTask;
     }
 

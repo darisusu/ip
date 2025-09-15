@@ -110,42 +110,42 @@ public class Pero {
      * Mirrors run(), but now is for GUI
      * returns String i.e. label for each user input
      */
-    public String getResponse(String input) {
+    public String getResponse(String input) throws PeroException {
         Command cmd = Parser.parseInputCommand(input);
         switch (cmd.type) {
-        case BYE -> {
+        case BYE:
             return guiUi.getExitMessage(); //break out of current loop
-        }
-        case HELP -> {
+
+        case HELP:
             return guiUi.getGuidelines();
-        }
-        case LIST -> {
+
+        case LIST:
             return guiUi.getTaskListMessage(tasks);
-        }
-        case MARK -> {
+
+        case MARK:
             return guiUi.getMarkedTaskMessage(tasks.markTask(cmd.index));
-        }
-        case UNMARK -> {
+
+        case UNMARK:
             return guiUi.getUnmarkedTaskMessage(tasks.unmarkTask(cmd.index));
-        }
-        case DELETE -> {
+
+        case DELETE:
             return guiUi.getDeleteTaskMessage(tasks.removeTask(cmd.index))
                     + "\n"
                     + guiUi.getTasksSizeMessage(tasks);
-        }
-        case TODO, DEADLINE, EVENT -> {
-            return guiUi.getAddedTaskMessage(tasks.removeTask(cmd.index))
+
+        case TODO, DEADLINE, EVENT:
+            return guiUi.getAddedTaskMessage(tasks.addTaskFromInput(input))
                     + "\n"
                     + guiUi.getTasksSizeMessage(tasks);
-        }
-        case FIND -> {
+
+        case FIND:
             String keyword = cmd.taskInput;
             TaskList matchingResults = tasks.findTasks(keyword);
             return guiUi.getMatchedTasks(matchingResults, keyword);
-        }
-        case INVALID -> {
+
+        case INVALID:
             return "Incorrect input. If you need some help, input 'help'.";
-        }
+
         }
         return "Idk man.";
     }
