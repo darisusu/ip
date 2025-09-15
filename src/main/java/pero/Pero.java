@@ -40,6 +40,10 @@ public class Pero {
         this.tasks = tasksTemp;
     }
 
+    public TaskList getTasks() {
+        return tasks;
+    }
+
     /**
      * for GUI
      * returns String i.e. label for each user input

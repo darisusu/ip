@@ -19,14 +19,15 @@ public class GuiUi {
     }
 
     /** Displays welcome message.*/
-    public String getWelcome() {
-        return "Hello, I'm Pero! I am here to track ur tasks. " +
-                "If anything unsure, input 'help' into command line";
+    public String getWelcome(TaskList tasks) {
+        return "Hello, I'm Pero! I am here to track ur tasks. \n"
+                + "If anything unsure, input 'help' into command line. \n"
+                + getTaskListMessage(tasks);
     }
 
     /** Displays exit message. */
     public String getExitMessage() {
-        return "Thank you for using Pero! Exiting now...";
+        return "Thank you for using Pero! Saving your list and exiting now...";
     }
 
     /**
@@ -132,9 +133,6 @@ public class GuiUi {
      * @param currTask Newly added task.
      */
     public String getAddedTaskMessage(Task currTask) {
-
-
-
         return "Got it. I've added task:\n" + currTask;
     }
 

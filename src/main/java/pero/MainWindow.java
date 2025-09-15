@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import pero.exception.PeroException;
+import pero.ui.GuiUi;
 
 import java.io.IOException;
 
@@ -36,16 +37,17 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
-        dialogContainer.getChildren().add(
-                DialogBox.getPeroDialog("Hello! I’m Pero 👋 How can I help you today? "
-                        + "(If u need help, just say 'help'!)", peroImage)
-        );
     }
 
     /** Injects the Pero instance */
     public void setPero(Pero p) {
         pero = p;
+        GuiUi guiUi = new GuiUi();
+        dialogContainer.getChildren().add(
+                DialogBox.getPeroDialog(guiUi.getWelcome(pero.getTasks()), peroImage)
+        );
     }
+
 
     /**
      * Creates two dialog boxes, one echoing user input and the other containing Pero's reply and then appends them to
