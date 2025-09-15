@@ -47,6 +47,7 @@ public class Pero {
 
     /**
      * Continuous loop waiting for scanner results, parsing and output using ui for each input
+     * run() is for UI
      */
     public void run() {
         Scanner sc = new Scanner(System.in);  // Create a Scanner object
