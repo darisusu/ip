@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import pero.exception.PeroException;
+
 /**
  * Controller for the main GUI.
  * Receives input from TextField and Button events
@@ -50,7 +52,7 @@ public class MainWindow extends AnchorPane {
      * To be changed (add logic)
      */
     @FXML
-    private void handleUserInput() {
+    private void handleUserInput() throws PeroException {
         String input = userInput.getText();
         String response = pero.getResponse(input);
         dialogContainer.getChildren().addAll(
