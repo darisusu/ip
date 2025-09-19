@@ -3,6 +3,7 @@
 Pero is a simple yet powerful **task management assistant** that runs with GUI support.  
 It helps you keep track of your to-dos, deadlines, and events with a friendly interface.
 
+
 ---
 
 ## 🚀 Features
