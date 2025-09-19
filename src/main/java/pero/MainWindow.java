@@ -39,7 +39,10 @@ public class MainWindow extends AnchorPane {
 
     }
 
-    /** Injects the Pero instance */
+    /**
+     * Injects the Pero instance
+     * @param p Pero instance
+     */
     public void setPero(Pero p) {
         pero = p;
         GuiUi guiUi = new GuiUi();

@@ -1,30 +1,30 @@
-# Duke User Guide
+# 📝 Pero
 
-// Update the title above to match the actual product name
+Pero is a simple yet powerful **task management assistant** that runs with GUI support.  
+It helps you keep track of your to-dos, deadlines, and events with a friendly interface.
 
-// Product screenshot goes here
+---
 
-// Product intro goes here
+## 🚀 Features
 
-## Adding deadlines
+- Add different types of tasks: **Todos, Deadlines, Events**
+- Mark and unmark tasks as done
+- Delete tasks and view task counts
+- Search tasks by keyword
+- Save tasks to a local file once your done, and reload them when you start!
+- GUI support for user-friendly interaction
 
-// Describe the action and its outcome.
+---
 
-// Give examples of usage
+## 🖥️ Preview
 
-Example: `keyword (optional arguments)`
+![Ui.png](Ui.png)
 
-// A description of the expected outcome goes here
+---
 
-```
-expected output
-```
+## ⚙️ Installation
 
-## Feature ABC
-
-// Feature details
-
-
-## Feature XYZ
-
-// Feature details
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/pero.git
+   cd pero

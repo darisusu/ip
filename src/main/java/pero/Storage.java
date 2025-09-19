@@ -128,8 +128,7 @@ public class Storage {
                     throw new PeroException("Unknown task type line from storage: " + currTaskLine);
             }
             } catch (PeroException e) {
-                //throw new PeroException("Skipping invalid line from storage: " + currTaskLine);
-                System.out.println("Skipping invalid line: " + currTaskLine); // how? if iw to remove all ui from storage
+                System.out.println("Skipping invalid line: " + currTaskLine);
             }
         }
         return tasks;

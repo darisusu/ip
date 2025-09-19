@@ -8,7 +8,8 @@ import pero.ui.GuiUi;
 import java.io.IOException;
 
 /**
- * Core application logic, independent of CLI or GUI
+ * Core application logic.
+ * Independent of CLI or GUI.
  */
 public class Pero {
 
@@ -28,8 +29,6 @@ public class Pero {
         this.storage = new Storage(filePath);
         this.guiUi = new GuiUi();
 
-        // Temp task list so that it compiles w/o error:
-        // "Variable 'tasks' might already have been assigned to"
         TaskList tasksTemp;
 
         try {
@@ -40,13 +39,23 @@ public class Pero {
         this.tasks = tasksTemp;
     }
 
+    /**
+     * Returns the current task list.
+     *
+     * @return task list
+     */
     public TaskList getTasks() {
         return tasks;
     }
 
     /**
-     * for GUI
-     * returns String i.e. label for each user input
+     * Processes a user input and returns the corresponding response string.
+     * The response returned is formatted for GUI display.
+     *
+     * @param input user input command string
+     * @return formatted response message
+     * @throws PeroException if command parsing or execution fails
+     * @throws IOException if saving tasks fails
      */
     public String getResponse(String input) throws PeroException, IOException {
         Command cmd = Parser.parseInputCommand(input);
