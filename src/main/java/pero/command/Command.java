@@ -6,7 +6,7 @@ package pero.command;
 public class Command {
     public final CommandType type;
     public final int index;          // For MARK, UNMARK, DELETE
-    public final String taskInput;   // For TODO, DEADLINE, EVENT
+    public final String taskInput;   // For TODO, DEADLINE, EVENT, FIND
 
     /**
      * Constructs a Command object with the specified type, index, and task input.

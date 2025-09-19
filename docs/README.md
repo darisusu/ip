@@ -1,6 +1,6 @@
 # 📝 Pero
 
-Pero is a simple yet powerful **task management assistant** that runs with GUI support.  
+Pero, a simple yet powerful **task management assistant**.  
 It helps you keep track of your to-dos, deadlines, and events with a friendly interface.
 
 ---
@@ -16,15 +16,34 @@ It helps you keep track of your to-dos, deadlines, and events with a friendly in
 
 ---
 
+## 💡 How to Use
+
+### Adding tasks: ###
+ - todo [description] : Add a simple task
+ - deadline [description] /by [YYYY-MM-DD HHmm] : Add a task with a deadline
+ - event [description] /from [YYYY-MM-DD HHmm] /to [YYYY-MM-DD HHmm] : Add an event with start and end times
+
+### Managing tasks: ###
+ - list : Show all tasks
+ - mark [task number] : Mark a task as done
+ - unmark [task number] : Mark a task as not done
+ - delete [task number] : Delete a task
+
+### Searching tasks: ###
+- find [string] : Returns task that contains string input (if it exists)
+
+### Exiting: ###
+ - bye : Exit Pero and save tasks to storage
+
+### Getting help: ###
+ - help : Shows a guide 
+
+
+#### Date/time format must be YYYY-MM-dd HH:mm ####
+##### (e.g. 2025-09-01 16:00) #####
+
 ## 🖥️ Preview
 
 ![Ui.png](Ui.png)
 
 ---
-
-## ⚙️ Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/pero.git
-   cd pero
